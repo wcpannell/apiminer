@@ -61,7 +61,7 @@ class ClaymoreRPC(object):
         #: list of list of int: [[Temp1, Fan%1], ..., [TempN, Fan%N]]
         self.tempsfans = [[0, 0], ]
 
-        #: str: Currently Connected Pool. ex. 'pool.pool.com:8080'
+        #: str: Currently Connected Pool. ex. "pool.pool.com:8080"
         self.pool = ''
 
         #: int: total invalid shares
