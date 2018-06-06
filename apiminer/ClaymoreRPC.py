@@ -172,7 +172,7 @@ class ClaymoreRPC(object):
         self._response['eth_pool']['pool'] = self._raw_response[7]
 
         [
-            self._response['eth_pool']['invalid_shares'],
+            self._response['eth_pool']['invalid'],
             self._response['eth_pool']['pool_switches'],
             self._response['dcr_pool']['invalid'],
             self._response['dcr_pool']['pool_switches']
@@ -200,7 +200,7 @@ class ClaymoreRPC(object):
         for gpu in range(len(percard_eth_hashrate)):
             self._response['GPUs']['GPU {}'.format(gpu)] = {
                 'eth_hashrate': percard_eth_hashrate[gpu],
-                'total_dcr_hashrate': percard_dcr_hashrate[gpu],
+                'dcr_hashrate': percard_dcr_hashrate[gpu],
                 'temp': tempsfans[gpu][0],
                 'fan': tempsfans[gpu][1]
             }
