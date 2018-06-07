@@ -7,11 +7,11 @@ python:
   - "3.6"
   - "3.7-dev"
 install: "make"
-script: make ci
+script: echo "initializing"
 jobs:
   include:
     - stage: test
-      script: make ci
+      script: make test
     - stage: docs
       python: 3.6
       script: make docs
