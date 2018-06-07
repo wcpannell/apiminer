@@ -10,8 +10,7 @@ install: "make"
 jobs:
   include:
     - stage: test
-      script:
-        - make ci
+      script: make ci
     - stage: docs
       python: 3.6
       script: make docs
