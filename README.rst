@@ -9,5 +9,6 @@ Apiminer supports:
  * ClaymoreRPC
      - Claymore
      - Ethminer
+     - PhoenixMiner (untested)
  * XMRStak
  * Others Coming Soon
