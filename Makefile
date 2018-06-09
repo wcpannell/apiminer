@@ -7,4 +7,4 @@ docs:
 	cd docs && make html
 
 test:
-	pipenv run python -m unittest
+	pipenv run pytest
