@@ -146,7 +146,7 @@ class ClaymoreRPC(object):
 
     def _format_response(self):
         self._response['miner']['version'] = \
-                self._raw_response[0],
+                self._raw_response[0]
         self._response['miner']['runtime'] = \
             int(self._raw_response[1])
 

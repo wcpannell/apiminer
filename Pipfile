@@ -10,6 +10,7 @@ requests = "*"
 sphinx = "*"
 sphinxcontrib-napoleon = "*"
 pytest = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.6"
