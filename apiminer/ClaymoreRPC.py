@@ -119,7 +119,7 @@ class ClaymoreRPC(object):
         # Close the socket when we're not using it.
         # Let me know if this isn't a good idea
         self._disconnect()
-        return self._response
+        return self.raw_response
 
     def restart_miner(self):
         """Sends the miner (API Host) the restart command.
@@ -204,6 +204,8 @@ class ClaymoreRPC(object):
                 'temp': tempsfans[gpu][0],
                 'fan': tempsfans[gpu][1]
             }
+        self._response['miner']['ip'] = self.ip
+        self._response['miner']['port'] = self.port
 
     @property
     def response(self):
