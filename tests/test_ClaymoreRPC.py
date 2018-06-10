@@ -14,9 +14,9 @@ miner_response1 = """{\
     "306",\
     "44414;174;2",\
     "14573;15036;14805",\
-    "0;0;0",\
-    "off;off;off",\
-    "54;33; 58;35; 57;35",\
+    "1000;100;1",\
+    "333;333;334",\
+    "41;11; 51;21; 61;31",\
     "us1.ethermine.org:5551",\
     "0;0;0;0"\
 ]}""".encode('utf-8')
@@ -31,7 +31,7 @@ miner_response2 = """{\
     "14572;15032;14802",\
     "2000;200;2",\
     "666;666;667",\
-    "52;32; 62;42; 72;42",\
+    "42;12; 52;22; 62;32",\
     "us2.ethermine.org:5552",\
     "22;2;2;2"\
 ]}""".encode('utf-8')
@@ -46,7 +46,7 @@ miner_response3 = """{\
     "14573;15033;14803",\
     "3000;300;3",\
     "1000;1000;1000",\
-    "53;33; 63;43; 73;53",\
+    "43;13; 53;23; 63;33",\
     "us3.ethermine.org:5553",\
     "33;3;3;3"\
 ]}""".encode('utf-8')
@@ -73,12 +73,74 @@ def test_version_response1(response1_fixture):
         response1_fixture.response['miner']['version']
 
 
+def test_address_response1(response1_fixture):
+    assert response1_fixture.ip == response1_fixture.response['miner']['ip']
+    assert response1_fixture.port == \
+        response1_fixture.response['miner']['port']
+
+
 def test_runtime_response1(response1_fixture):
     assert int(
         json.loads(
             miner_response1.decode('utf-8')
         )['result'][1]
     ) == response1_fixture.response['miner']['runtime']
+
+
+def test_eth_pool_response1(response1_fixture):
+    correct = json.loads(miner_response1.decode('utf-8'))['result']
+    assert correct[7] == response1_fixture.response['eth_pool']['pool']
+    assert int(correct[8].split(';')[1]) == \
+        response1_fixture.response['eth_pool']['pool_switches']
+    assert int(correct[2].split(';')[1]) == \
+        response1_fixture.response['eth_pool']['accepted']
+    assert int(correct[2].split(';')[2]) == \
+        response1_fixture.response['eth_pool']['rejected']
+    assert int(correct[8].split(';')[0]) == \
+        response1_fixture.response['eth_pool']['invalid']
+    assert int(correct[2].split(';')[0]) / 1000 == \
+        response1_fixture.response['eth_pool']['total_hashrate']
+
+
+def test_dcr_pool_response1(response1_fixture):
+    correct = json.loads(miner_response1.decode('utf-8'))['result']
+    assert correct[7] == response1_fixture.response['eth_pool']['pool']
+    assert int(correct[8].split(';')[3]) == \
+        response1_fixture.response['dcr_pool']['pool_switches']
+    assert int(correct[4].split(';')[1]) == \
+        response1_fixture.response['dcr_pool']['accepted']
+    assert int(correct[4].split(';')[2]) == \
+        response1_fixture.response['dcr_pool']['rejected']
+    assert int(correct[8].split(';')[0]) == \
+        response1_fixture.response['dcr_pool']['invalid']
+    assert int(correct[4].split(';')[2]) == \
+        response1_fixture.response['dcr_pool']['total_hashrate']
+
+
+def test_format_gpus_response1(response1_fixture):
+    assert response1_fixture.response['GPUs']['GPU 0'] == \
+        {
+            'eth_hashrate': 14.573,
+            'dcr_hashrate': .333,
+            'temp': 41,
+            'fan': 11,
+        }
+    assert response1_fixture.response['GPUs']['GPU 1'] == \
+        {
+            'eth_hashrate': 15.036,
+            'dcr_hashrate': .333,
+            'temp': 51,
+            'fan': 21
+        }
+    assert response1_fixture.response['GPUs']['GPU 2'] == \
+        {
+            'eth_hashrate': 14.805,
+            'dcr_hashrate': .334,
+            'temp': 61,
+            'fan': 31
+        }
+
+
 #     def test_raw_response2(self):
 #         #: bytestring: This JSONRPC response has DCR
 #         miner_response = """{\
