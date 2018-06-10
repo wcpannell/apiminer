@@ -54,7 +54,7 @@ miner_response3 = """{\
 
 @pytest.fixture
 def response1_fixture(mocker):
-    m = mocker.patch("socket.socket", autospec=True).return_value
+    m = mocker.patch("socket.socket").return_value
     m.recv.return_value = miner_response1
     m.connect.return_value = 'CONNECTED'
     RPC = ClaymoreRPC('10.255.255.1', 8080)
