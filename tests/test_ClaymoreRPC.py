@@ -54,6 +54,8 @@ miner_response3 = """{\
 
 @pytest.fixture
 def response1_fixture(mocker):
+    # mock has a bug in Python 2 causing failure when autospec is used on
+    # socket.socket. https://github.com/testing-cabal/mock/issues/323
     m = mocker.patch("socket.socket").return_value
     m.recv.return_value = miner_response1
     m.connect.return_value = 'CONNECTED'
