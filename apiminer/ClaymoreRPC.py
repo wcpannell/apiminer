@@ -119,7 +119,7 @@ class ClaymoreRPC(object):
         # Close the socket when we're not using it.
         # Let me know if this isn't a good idea
         self._disconnect()
-        return self.raw_response
+        return self._raw_response
 
     def restart_miner(self):
         """Sends the miner (API Host) the restart command.
