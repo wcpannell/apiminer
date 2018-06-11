@@ -1,16 +1,27 @@
 [[source]]
+
 url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [packages]
+
 requests = "*"
 
+
 [dev-packages]
+
 sphinx = "*"
 sphinxcontrib-napoleon = "*"
 pytest = "*"
 pytest-mock = "*"
+tox = "*"
+detox = "*"
+tox-pipenv = "*"
+pipenv = "*"
 
-[requires]
-python_version = "3.6"
+
+# [requires]
+# 
+# python_version >= "2.7"

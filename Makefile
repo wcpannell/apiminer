@@ -6,5 +6,8 @@ init:
 docs:
 	cd docs && make html
 
-test:
+citest:
 	pipenv run pytest
+
+test:
+	detox
