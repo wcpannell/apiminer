@@ -98,8 +98,8 @@ def test_eth_pool_response1(response1_fixture):
         response1_fixture.response['eth_pool']['rejected']
     assert int(correct[8].split(';')[0]) == \
         response1_fixture.response['eth_pool']['invalid']
-    assert int(correct[2].split(';')[0]) / 1000 == \
-        response1_fixture.response['eth_pool']['total_hashrate']
+    assert response1_fixture.response['eth_pool']['total_hashrate'] == \
+        44.414
 
 
 def test_dcr_pool_response1(response1_fixture):

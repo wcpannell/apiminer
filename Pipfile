@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 requests = "*"
 future = "*"
+funcsigs = "*"
 
 [dev-packages]
 sphinx = "*"
@@ -16,6 +17,8 @@ tox = "*"
 detox = "*"
 tox-pipenv = "*"
 pipenv = "*"
+mock = "*"
+"unittest2" = "*"
 # [requires]
 # 
 # python_version >= "2.7"
