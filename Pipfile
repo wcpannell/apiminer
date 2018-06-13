@@ -15,10 +15,8 @@ pytest = "*"
 pytest-mock = "*"
 tox = "*"
 detox = "*"
-tox-pipenv = "*"
 pipenv = "*"
-mock = "*"
-"unittest2" = "*"
+tox-pyenv = "*"
 # [requires]
 # 
 # python_version >= "2.7"
