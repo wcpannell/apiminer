@@ -11,7 +11,7 @@ if [ "$1" != "dry" ]; then
 	git config user.email "2120605+wcpannell@users.noreply.github.com"
 fi
 
-cp -R ../$REPO/docs/_build/html/* ./
+cp -R ../apiminer/docs/_build/html/* ./
 git add -A .
 git commit -m "[ci skip] Autodoc commit for $COMMIT."
 if [ "$1" != "dry" ]; then
