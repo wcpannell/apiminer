@@ -13,7 +13,7 @@ fi
 
 cp -R ../apiminer/docs/_build/html/* ./
 git add -A .
-git commit -m "[ci skip] Autodoc commit for $COMMIT."
+git commit -m "Autodoc commit for $TRAVIS_COMMIT." -m "$TRAVIS_COMMIT_MESSAGE"
 if [ "$1" != "dry" ]; then
 	git push -q origin gh-pages
 	# -q prevents leaking token
