@@ -1,0 +1,236 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>apiminer package &#8212; apiminer v0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to apiminer’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="apiminer-package">
+<h1>apiminer package<a class="headerlink" href="#apiminer-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-apiminer.ClaymoreRPC">
+<span id="apiminer-claymorerpc-module"></span><h2>apiminer.ClaymoreRPC module<a class="headerlink" href="#module-apiminer.ClaymoreRPC" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of ClaymoreRPC get_minerstats1 protocol</p>
+<p>This is compatable with both Claymore and Ethminer</p>
+<dl class="class">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC">
+<em class="property">class </em><code class="descclassname">apiminer.ClaymoreRPC.</code><code class="descname">ClaymoreRPC</code><span class="sig-paren">(</span><em>ip</em>, <em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class that interacts with a ClaymoreRPC protocol listener</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – IP address of the api host</li>
+<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The port on which the api is listening</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.response">
+<code class="descname">response</code><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.response" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> – Private storage of formatted response. set by
+<a class="reference internal" href="#apiminer.ClaymoreRPC.ClaymoreRPC.update" title="apiminer.ClaymoreRPC.ClaymoreRPC.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ClaymoreRPC.update()</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.auto_update">
+<code class="descname">auto_update</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.auto_update" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em> – Enable to update every time the response attribute is read.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">response</code></dt>
+<dd><p>Returns a dictionary of the response, in a nice format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.restart_miner">
+<code class="descname">restart_miner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.restart_miner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.restart_miner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the miner (API Host) the restart command.
+The miner API must be set in write mode. No effort is made to check if
+the restart was successful. Also, note that if the miner is
+non-responsive, it is very unlikely that this command will be
+effective.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.socket">
+<code class="descname">socket</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.socket" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.python.org/3/library/socket.html#socket.socket" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">socket.socket</span></code></a> Object. This communicates with the API Host</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update our model with fresh data. Connects if not connected</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-apiminer.XMRStakAPI">
+<span id="apiminer-xmrstakapi-module"></span><h2>apiminer.XMRStakAPI module<a class="headerlink" href="#module-apiminer.XMRStakAPI" title="Permalink to this headline">¶</a></h2>
+<p>Reads data from the XMRStak JSON API</p>
+<dl class="class">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI">
+<em class="property">class </em><code class="descclassname">apiminer.XMRStakAPI.</code><code class="descname">XMRStakAPI</code><span class="sig-paren">(</span><em>ip</em>, <em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.accepted_shares">
+<code class="descname">accepted_shares</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.accepted_shares" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – Total Accepted Shares</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.getdict">
+<code class="descname">getdict</code><span class="sig-paren">(</span><em>update=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI.getdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.getdict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary of the class attributes, in a nice format</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.invalid_shares">
+<code class="descname">invalid_shares</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.invalid_shares" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – a copy of <code class="xref py py-attr docutils literal notranslate"><span class="pre">XMRStak.rejected_shares</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.percard_hashrate">
+<code class="descname">percard_hashrate</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.percard_hashrate" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list of float</em> – Current Hashrate per card. 10s rolling average.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.pool">
+<code class="descname">pool</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.pool" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – Pool with which the miner is currently connected</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.runtime">
+<code class="descname">runtime</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.runtime" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – Uptime in minutes</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.total_hashrate">
+<code class="descname">total_hashrate</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.total_hashrate" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – Current Total Hashrate. 10 second rolling average.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-apiminer">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-apiminer" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">apiminer</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">apiminer package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-apiminer.ClaymoreRPC">apiminer.ClaymoreRPC module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-apiminer.XMRStakAPI">apiminer.XMRStakAPI module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-apiminer">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to apiminer’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, C. Pannell.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/apiminer.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
