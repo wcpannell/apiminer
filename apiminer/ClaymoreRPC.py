@@ -90,8 +90,16 @@ class ClaymoreRPC(object):
         self.socket.close()
         self._connected = False
 
-    def update(self):
-        """Update our model with fresh data. Connects if not connected"""
+    def write(self, method):
+        """Send message to the miner. Connects if not connected
+        
+        Parameters
+        ----------
+        method: str
+            Query the API for the data indicated. See [Ethminer
+            Docs](https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md)
+            for more information on the methods that can be used
+        """
         if not self._connected:
             self._connect()
         self.socket.sendall(
@@ -100,12 +108,20 @@ class ClaymoreRPC(object):
                     {
                         "id": 0,
                         "jsonrpc": "2.0",
-                        "method": "miner_getstat1"
+                        "method": method
                     }
                 )
                 + '\n'
             ).encode('utf-8')
         )
+    def read(self):
+        """Read data from API
+
+        Returns
+        -------
+        dict
+            deserialized JSON response.
+        """
         try:
             received = self.socket.recv(1024)
         except ConnectionResetError:
@@ -113,15 +129,91 @@ class ClaymoreRPC(object):
             self._disconnect()
             pass
 
-        if received:
-            self._raw_response = json.loads(received.decode('utf-8'))['result']
-        else:
-            print('invalid JSON RPC response')
-
         # Close the socket when we're not using it.
         # Let me know if this isn't a good idea
         self._disconnect()
-        return self._raw_response
+
+        if received:
+            return json.loads(received.decode('utf-8'))
+        else:
+            print('invalid JSON RPC response')
+
+    def update(self):
+        """DEPRECATION WARNING. This will be removed in the next release"""
+        print("DEPRECATION WARNING. This will be removed in the next release")
+        self.write("miner_getstat1")
+        self._raw_response = self.read()['result']
+
+    def getstats1(self):
+        """Implementation of the getstats1 method."""
+        self.write("getstats1")
+        raw_response = self.read()['result']
+        response = dict()
+        
+        response['miner']['version'] = \
+                raw_response[0]
+        response['miner']['runtime'] = \
+            int(raw_response[1])
+
+        [
+            response['eth_pool']['total_hashrate'],
+            response['eth_pool']['accepted'],
+            response['eth_pool']['rejected']
+        ] = [int(val) for val in raw_response[2].split(';')]
+        if response['eth_pool']['total_hashrate'] > 0:
+            response['eth_pool']['total_hashrate'] /= 1000
+
+        [
+            response['dcr_pool']['total_hashrate'],
+            response['dcr_pool']['accepted'],
+            response['dcr_pool']['rejected'],
+        ] = [
+            int(val) if val != 'off' else -1
+            for val in raw_response[4].split(';')
+        ]
+        if response['dcr_pool']['total_hashrate'] > 0:
+            response['dcr_pool']['total_hashrate'] /= 1000
+
+        response['eth_pool']['pool'] = raw_response[7]
+
+        [
+            response['eth_pool']['invalid'],
+            response['eth_pool']['pool_switches'],
+            response['dcr_pool']['invalid'],
+            response['dcr_pool']['pool_switches']
+        ] = [
+            int(val) if val != 'off' else -1
+            for val in raw_response[8].split(';')
+        ]
+
+        percard_eth_hashrate = [
+            (int(val) / 1000) for val in raw_response[3].split(';')
+        ]
+
+        percard_dcr_hashrate = [
+            (float(val) / 1000) if val != 'off' else -1
+            for val in raw_response[5].split(';')
+        ]
+
+        tempsfans = raw_response[6].split(';')
+        tempsfans = [
+            [int(value), int(tempsfans[index+1])]
+            for index, value in enumerate(tempsfans)
+            if not index % 2
+        ]
+
+        for gpu in range(len(percard_eth_hashrate)):
+            response['GPUs']['GPU {}'.format(gpu)] = {
+                'eth_hashrate': percard_eth_hashrate[gpu],
+                'dcr_hashrate': percard_dcr_hashrate[gpu],
+                'temp': tempsfans[gpu][0],
+                'fan': tempsfans[gpu][1]
+            }
+        response['miner']['ip'] = self.ip
+        response['miner']['port'] = self.port
+
+        return response
+
 
     def restart_miner(self):
         """Sends the miner (API Host) the restart command.
@@ -147,6 +239,12 @@ class ClaymoreRPC(object):
         self._disconnect()
 
     def _format_response(self):
+        """DEPRECATED WARNING. This will be removed in the next release"""
+        print(
+            "DEPRECATION WARNING. This will be removed in the next release\n",
+            "Formatting will now be a part of each API method implementation"
+        )
+
         self._response['miner']['version'] = \
                 self._raw_response[0]
         self._response['miner']['runtime'] = \
@@ -211,7 +309,8 @@ class ClaymoreRPC(object):
 
     @property
     def response(self):
-        """Returns a dictionary of the response, in a nice format"""
+        """Deprecated.
+Returns a dictionary of the response, in a nice format"""
         if self.auto_update:
             self.update()
 
