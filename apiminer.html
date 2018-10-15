@@ -74,6 +74,21 @@
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.authorize">
+<code class="descname">authorize</code><span class="sig-paren">(</span><em>password</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.authorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.authorize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authenticate connection. Used for APIs that have –api-password set.</p>
+<p>This will send the password in plaintext. Blame Ethminer</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The password. Again, cleartext.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.auto_update">
 <code class="descname">auto_update</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.auto_update" title="Permalink to this definition">¶</a></dt>
@@ -141,15 +156,20 @@ effective.</p>
 
 <dl class="method">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>method</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.write" title="Permalink to this definition">¶</a></dt>
+<code class="descname">write</code><span class="sig-paren">(</span><em>method='miner_getstats1'</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send message to the miner. Connects if not connected</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Query the API for the data indicated. See [Ethminer
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Query the API for the data indicated. See [Ethminer
 Docs](<a class="reference external" href="https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md">https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md</a>)
-for more information on the methods that can be used</td>
+for more information on the methods that can be used</li>
+<li><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Password for APIs protected by –api-password. Note that this
+password is sent in cleartext. Blame ethminer.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
