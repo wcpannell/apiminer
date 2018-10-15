@@ -76,6 +76,8 @@ class ClaymoreRPC(object):
         """dict: Private storage of formatted response. set by
         :meth:`ClaymoreRPC.update`"""
 
+        self.authorized = None
+
         # Get Data right off the bat. Could be dangerous? I'm open to changing.
         self.update()
 
@@ -90,30 +92,37 @@ class ClaymoreRPC(object):
         self.socket.close()
         self._connected = False
 
-    def write(self, method):
+    def write(self, method="miner_getstats1", password=None):
         """Send message to the miner. Connects if not connected
-        
+
         Parameters
         ----------
         method: str
             Query the API for the data indicated. See [Ethminer
             Docs](https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md)
             for more information on the methods that can be used
+        password: str
+            Password for APIs protected by --api-password. Note that this
+            password is sent in cleartext. Blame ethminer.
         """
+        query = {
+            "id": 0,
+            "jsonrpc": "2.0",
+            "method": method
+        }
+
+        if password is not None:
+            query['params'] = {"psw": password}
+
         if not self._connected:
             self._connect()
         self.socket.sendall(
             (
-                json.dumps(
-                    {
-                        "id": 0,
-                        "jsonrpc": "2.0",
-                        "method": method
-                    }
-                )
+                json.dumps(query)
                 + '\n'
             ).encode('utf-8')
         )
+
     def read(self):
         """Read data from API
 
@@ -144,16 +153,31 @@ class ClaymoreRPC(object):
         self.write("miner_getstat1")
         self._raw_response = self.read()['result']
 
+    def authorize(self, password):
+        """Authenticate connection. Used for APIs that have --api-password set.
+
+        This will send the password in plaintext. Blame Ethminer
+
+        Parameters
+        ----------
+        password: str
+            The password. Again, cleartext.
+        """
+        self.write(method="api_authorize", password=password)
+        response = self.read()
+        if response['result']:
+            self.authorized = True
+        else:
+            self.authorized = False
+
     def getstats1(self):
         """Implementation of the getstats1 method."""
         self.write("getstats1")
         raw_response = self.read()['result']
         response = dict()
-        
-        response['miner']['version'] = \
-                raw_response[0]
-        response['miner']['runtime'] = \
-            int(raw_response[1])
+
+        response['miner']['version'] = raw_response[0]
+        response['miner']['runtime'] = int(raw_response[1])
 
         [
             response['eth_pool']['total_hashrate'],
@@ -214,7 +238,6 @@ class ClaymoreRPC(object):
 
         return response
 
-
     def restart_miner(self):
         """Sends the miner (API Host) the restart command.
         The miner API must be set in write mode. No effort is made to check if
@@ -246,7 +269,7 @@ class ClaymoreRPC(object):
         )
 
         self._response['miner']['version'] = \
-                self._raw_response[0]
+            self._raw_response[0]
         self._response['miner']['runtime'] = \
             int(self._raw_response[1])
 
