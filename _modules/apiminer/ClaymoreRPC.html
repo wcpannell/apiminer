@@ -125,8 +125,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span> <span class="o">=</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="ClaymoreRPC.update"><a class="viewcode-back" href="../../apiminer.html#apiminer.ClaymoreRPC.ClaymoreRPC.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Update our model with fresh data. Connects if not connected&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ClaymoreRPC.write"><a class="viewcode-back" href="../../apiminer.html#apiminer.ClaymoreRPC.ClaymoreRPC.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send message to the miner. Connects if not connected</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        method: str</span>
+<span class="sd">            Query the API for the data indicated. See [Ethminer</span>
+<span class="sd">            Docs](https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md)</span>
+<span class="sd">            for more information on the methods that can be used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_connect</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span>
@@ -135,12 +143,20 @@
                     <span class="p">{</span>
                         <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
                         <span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;miner_getstat1&quot;</span>
+                        <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="n">method</span>
                     <span class="p">}</span>
                 <span class="p">)</span>
                 <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
             <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
+<div class="viewcode-block" id="ClaymoreRPC.read"><a class="viewcode-back" href="../../apiminer.html#apiminer.ClaymoreRPC.ClaymoreRPC.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read data from API</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            deserialized JSON response.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">received</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ConnectionResetError</span><span class="p">:</span>
@@ -148,15 +164,91 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_disconnect</span><span class="p">()</span>
             <span class="k">pass</span>
 
-        <span class="k">if</span> <span class="n">received</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_raw_response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">received</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;invalid JSON RPC response&#39;</span><span class="p">)</span>
-
         <span class="c1"># Close the socket when we&#39;re not using it.</span>
         <span class="c1"># Let me know if this isn&#39;t a good idea</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_disconnect</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_response</span></div>
+
+        <span class="k">if</span> <span class="n">received</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">received</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;invalid JSON RPC response&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ClaymoreRPC.update"><a class="viewcode-back" href="../../apiminer.html#apiminer.ClaymoreRPC.ClaymoreRPC.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;DEPRECATION WARNING. This will be removed in the next release&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DEPRECATION WARNING. This will be removed in the next release&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;miner_getstat1&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raw_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ClaymoreRPC.getstats1"><a class="viewcode-back" href="../../apiminer.html#apiminer.ClaymoreRPC.ClaymoreRPC.getstats1">[docs]</a>    <span class="k">def</span> <span class="nf">getstats1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Implementation of the getstats1 method.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;getstats1&quot;</span><span class="p">)</span>
+        <span class="n">raw_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        
+        <span class="n">response</span><span class="p">[</span><span class="s1">&#39;miner&#39;</span><span class="p">][</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                <span class="n">raw_response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">response</span><span class="p">[</span><span class="s1">&#39;miner&#39;</span><span class="p">][</span><span class="s1">&#39;runtime&#39;</span><span class="p">]</span> <span class="o">=</span> \
+            <span class="nb">int</span><span class="p">(</span><span class="n">raw_response</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="p">[</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;eth_pool&#39;</span><span class="p">][</span><span class="s1">&#39;total_hashrate&#39;</span><span class="p">],</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;eth_pool&#39;</span><span class="p">][</span><span class="s1">&#39;accepted&#39;</span><span class="p">],</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;eth_pool&#39;</span><span class="p">][</span><span class="s1">&#39;rejected&#39;</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">raw_response</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;eth_pool&#39;</span><span class="p">][</span><span class="s1">&#39;total_hashrate&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;eth_pool&#39;</span><span class="p">][</span><span class="s1">&#39;total_hashrate&#39;</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">1000</span>
+
+        <span class="p">[</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;dcr_pool&#39;</span><span class="p">][</span><span class="s1">&#39;total_hashrate&#39;</span><span class="p">],</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;dcr_pool&#39;</span><span class="p">][</span><span class="s1">&#39;accepted&#39;</span><span class="p">],</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;dcr_pool&#39;</span><span class="p">][</span><span class="s1">&#39;rejected&#39;</span><span class="p">],</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">if</span> <span class="n">val</span> <span class="o">!=</span> <span class="s1">&#39;off&#39;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">raw_response</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;dcr_pool&#39;</span><span class="p">][</span><span class="s1">&#39;total_hashrate&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;dcr_pool&#39;</span><span class="p">][</span><span class="s1">&#39;total_hashrate&#39;</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">1000</span>
+
+        <span class="n">response</span><span class="p">[</span><span class="s1">&#39;eth_pool&#39;</span><span class="p">][</span><span class="s1">&#39;pool&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_response</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+
+        <span class="p">[</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;eth_pool&#39;</span><span class="p">][</span><span class="s1">&#39;invalid&#39;</span><span class="p">],</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;eth_pool&#39;</span><span class="p">][</span><span class="s1">&#39;pool_switches&#39;</span><span class="p">],</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;dcr_pool&#39;</span><span class="p">][</span><span class="s1">&#39;invalid&#39;</span><span class="p">],</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;dcr_pool&#39;</span><span class="p">][</span><span class="s1">&#39;pool_switches&#39;</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">if</span> <span class="n">val</span> <span class="o">!=</span> <span class="s1">&#39;off&#39;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">raw_response</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">percard_eth_hashrate</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">raw_response</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">percard_dcr_hashrate</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span> <span class="k">if</span> <span class="n">val</span> <span class="o">!=</span> <span class="s1">&#39;off&#39;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">raw_response</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">tempsfans</span> <span class="o">=</span> <span class="n">raw_response</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+        <span class="n">tempsfans</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">tempsfans</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tempsfans</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">gpu</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">percard_eth_hashrate</span><span class="p">)):</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;GPUs&#39;</span><span class="p">][</span><span class="s1">&#39;GPU </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gpu</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;eth_hashrate&#39;</span><span class="p">:</span> <span class="n">percard_eth_hashrate</span><span class="p">[</span><span class="n">gpu</span><span class="p">],</span>
+                <span class="s1">&#39;dcr_hashrate&#39;</span><span class="p">:</span> <span class="n">percard_dcr_hashrate</span><span class="p">[</span><span class="n">gpu</span><span class="p">],</span>
+                <span class="s1">&#39;temp&#39;</span><span class="p">:</span> <span class="n">tempsfans</span><span class="p">[</span><span class="n">gpu</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s1">&#39;fan&#39;</span><span class="p">:</span> <span class="n">tempsfans</span><span class="p">[</span><span class="n">gpu</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="n">response</span><span class="p">[</span><span class="s1">&#39;miner&#39;</span><span class="p">][</span><span class="s1">&#39;ip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip</span>
+        <span class="n">response</span><span class="p">[</span><span class="s1">&#39;miner&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span>
+
+        <span class="k">return</span> <span class="n">response</span></div>
+
 
 <div class="viewcode-block" id="ClaymoreRPC.restart_miner"><a class="viewcode-back" href="../../apiminer.html#apiminer.ClaymoreRPC.ClaymoreRPC.restart_miner">[docs]</a>    <span class="k">def</span> <span class="nf">restart_miner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sends the miner (API Host) the restart command.</span>
@@ -182,6 +274,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_disconnect</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">_format_response</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;DEPRECATED WARNING. This will be removed in the next release&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;DEPRECATION WARNING. This will be removed in the next release</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Formatting will now be a part of each API method implementation&quot;</span>
+        <span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">[</span><span class="s1">&#39;miner&#39;</span><span class="p">][</span><span class="s1">&#39;version&#39;</span><span class="p">]</span> <span class="o">=</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">_raw_response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">[</span><span class="s1">&#39;miner&#39;</span><span class="p">][</span><span class="s1">&#39;runtime&#39;</span><span class="p">]</span> <span class="o">=</span> \
@@ -246,7 +344,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">response</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns a dictionary of the response, in a nice format&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Deprecated.</span>
+<span class="sd">Returns a dictionary of the response, in a nice format&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_update</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
 
@@ -296,6 +395,14 @@
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -304,8 +411,8 @@
       &copy;2018, C. Pannell.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

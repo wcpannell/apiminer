@@ -62,20 +62,59 @@
 <dl class="attribute">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.response">
 <code class="descname">response</code><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.response" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>dict</em> – Private storage of formatted response. set by
+<dd><p>Private storage of formatted response. set by
 <a class="reference internal" href="#apiminer.ClaymoreRPC.ClaymoreRPC.update" title="apiminer.ClaymoreRPC.ClaymoreRPC.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ClaymoreRPC.update()</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.auto_update">
 <code class="descname">auto_update</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.auto_update" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>bool</em> – Enable to update every time the response attribute is read.</p>
+<dd><p>Enable to update every time the response attribute is read.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.getstats1">
+<code class="descname">getstats1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.getstats1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.getstats1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implementation of the getstats1 method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.read">
+<code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read data from API</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">deserialized JSON response.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt>
 <code class="descname">response</code></dt>
-<dd><p>Returns a dictionary of the response, in a nice format</p>
+<dd><p>Deprecated.
+Returns a dictionary of the response, in a nice format</p>
 </dd></dl>
 
 <dl class="method">
@@ -97,7 +136,23 @@ effective.</p>
 <dl class="method">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.update">
 <code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update our model with fresh data. Connects if not connected</p>
+<dd><p>DEPRECATION WARNING. This will be removed in the next release</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>method</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send message to the miner. Connects if not connected</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Query the API for the data indicated. See [Ethminer
+Docs](<a class="reference external" href="https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md">https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md</a>)
+for more information on the methods that can be used</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -113,7 +168,15 @@ effective.</p>
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.accepted_shares">
 <code class="descname">accepted_shares</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.accepted_shares" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – Total Accepted Shares</p>
+<dd><p>Total Accepted Shares</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -125,31 +188,71 @@ effective.</p>
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.invalid_shares">
 <code class="descname">invalid_shares</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.invalid_shares" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – a copy of <code class="xref py py-attr docutils literal notranslate"><span class="pre">XMRStak.rejected_shares</span></code></p>
+<dd><p>a copy of <code class="xref py py-attr docutils literal notranslate"><span class="pre">XMRStak.rejected_shares</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.percard_hashrate">
 <code class="descname">percard_hashrate</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.percard_hashrate" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>list of float</em> – Current Hashrate per card. 10s rolling average.</p>
+<dd><p>Current Hashrate per card. 10s rolling average.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list of float</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.pool">
 <code class="descname">pool</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.pool" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>str</em> – Pool with which the miner is currently connected</p>
+<dd><p>Pool with which the miner is currently connected</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.runtime">
 <code class="descname">runtime</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.runtime" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – Uptime in minutes</p>
+<dd><p>Uptime in minutes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.total_hashrate">
 <code class="descname">total_hashrate</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.total_hashrate" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – Current Total Hashrate. 10 second rolling average.</p>
+<dd><p>Current Total Hashrate. 10 second rolling average.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -213,6 +316,14 @@ effective.</p>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -221,8 +332,8 @@ effective.</p>
       &copy;2018, C. Pannell.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/apiminer.rst.txt"
