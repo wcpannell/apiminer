@@ -170,9 +170,9 @@ class ClaymoreRPC(object):
         else:
             self.authorized = False
 
-    def getstats1(self):
+    def getstat1(self):
         """Implementation of the getstats1 method."""
-        self.write("getstats1")
+        self.write("getstat1")
         raw_response = self.read()['result']
         response = dict()
 
@@ -239,27 +239,51 @@ class ClaymoreRPC(object):
         return response
 
     def restart_miner(self):
+        """Deprecated. Renamed to restart.
+
+        This will be removed in the next version"""
+        self.restart()
+
+    def restart(self):
         """Sends the miner (API Host) the restart command.
-        The miner API must be set in write mode. No effort is made to check if
-        the restart was successful. Also, note that if the miner is
-        non-responsive, it is very unlikely that this command will be
-        effective.
+
+        The miner API must be set in write mode. Also, note that if the miner
+        is non-responsive, it is very unlikely that this command will be
+        effective. If effective, this will cause the miner to stop mining,
+        unload DAGs, reset GPUs, regenerate DAGs, and then start mining. The
+        connection to the pool will be maintained.
+
+        Returns
+        -------
+        bool
+            Restart succesful.
         """
-        if not self._connected:
-            self._connect()
-        self.socket.sendall(
-            (
-                json.dumps(
-                    {
-                        "id": 0,
-                        "jsonrpc": "2.0",
-                        "method": "miner_restart"
-                    }
-                )
-                + '\n'
-            ).encode('utf-8')
-        )
-        self._disconnect()
+        self.write("miner_restart")
+        response = self.read()
+
+        if response:
+            return True
+        else:
+            return False
+
+    def reboot(self):
+        """Runs a script named reboot.sh (Linux) or reboot.bat (Windows)
+
+        This method will only work if the API is in write mode. There is no
+        guarantee that script will succeed.
+
+        Returns
+        -------
+        bool
+            Returns True if script was found and the miner tried to start it.
+        """
+        self.write("miner_reboot")
+        response = self.read()
+
+        if response:
+            return True
+        else:
+            return False
 
     def _format_response(self):
         """DEPRECATED WARNING. This will be removed in the next release"""
@@ -339,3 +363,60 @@ Returns a dictionary of the response, in a nice format"""
 
         self._format_response()
         return self._response
+
+class EthminerRPC(ClaymoreRPC):
+    """Class that uses the Ethminer superset of ClaymoreRPC protocol listener
+    to interact with an Ethminer client.
+
+    Parameters
+    ----------
+    ip : str
+        IP address of the api host
+    port : int
+        The port on which the api is listening
+
+    Attributes
+    ----------
+    response : dict
+        Private storage of formatted response. set by
+        :meth:`ClaymoreRPC.update`
+    """
+    def __init__(self, ip, port):
+        super().__init__(ip, port):
+
+    def getstatdetail(self):
+        """Returns dict of detailed statistical data
+
+        Returns
+        -------
+        dict
+            API response
+        """
+        self.write("miner_getstatdetail")
+        return self.read()
+
+    def ping(self):
+        """Check if the server is still alive
+        Returns
+        -------
+        bool
+            Response received.
+        """
+        self.write("miner_ping")
+        response = self.read()
+        if response:
+            return True
+        else:
+            return False
+
+    def getstathr(self):
+        """Ethminer's noncompliant, but much better formatted extension to
+        getstat1
+
+        Returns
+        -------
+        dict
+            Response
+        """
+        self.write("miner_getstathr")
+        return self.read()
