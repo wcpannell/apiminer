@@ -20,41 +20,37 @@ class MinerApi(object):
     auto_update : bool
         Enable to update every time the response attribute is read.
     """
+
     def __init__(self, ip, port, auto_update=False):
-        self.ip = str(ip).encode('utf-8')
+        self.ip = str(ip).encode("utf-8")
         self.port = int(port)
         self.auto_update = auto_update
         self._response = {
-            'miner': {
-                'version': '',
-                'ip': '',
-                'port': 0,
-                'runtime': 0
+            "miner": {"version": "", "ip": "", "port": 0, "runtime": 0},
+            "eth_pool": {
+                "pool": "",
+                "pool_switches": 0,
+                "accepted": 0,
+                "rejected": 0,
+                "invalid": 0,
+                "total_hashrate": 0,
             },
-            'eth_pool': {
-                'pool': '',
-                'pool_switches': 0,
-                'accepted': 0,
-                'rejected': 0,
-                'invalid': 0,
-                'total_hashrate': 0
+            "dcr_pool": {
+                "pool": "Not Implemented",
+                "pool_switches": 0,
+                "accepted": 0,
+                "rejected": 0,
+                "invalid": 0,
+                "total_hashrate": 0,
             },
-            'dcr_pool': {
-                'pool': 'Not Implemented',
-                'pool_switches': 0,
-                'accepted': 0,
-                'rejected': 0,
-                'invalid': 0,
-                'total_hashrate': 0
-            },
-            'GPUs': {
-                'GPU 0': {
-                    'eth_hashrate': 0,
-                    'total_dcr_hashrate': 0,
-                    'temp': 0,
-                    'fan': 0
+            "GPUs": {
+                "GPU 0": {
+                    "eth_hashrate": 0,
+                    "total_dcr_hashrate": 0,
+                    "temp": 0,
+                    "fan": 0,
                 }
-            }
+            },
         }
         """dict: Private storage of response.
 

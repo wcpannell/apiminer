@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-requests = "*"
+requests = ">=2.20.0"
 future = "*"
 funcsigs = "*"
 
@@ -17,6 +17,8 @@ tox = "*"
 detox = "*"
 pipenv = "*"
 tox-pyenv = "*"
+black = "==19.3b0"
+
 # [requires]
 # 
 # python_version >= "2.7"

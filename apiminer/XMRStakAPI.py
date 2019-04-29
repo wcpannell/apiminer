@@ -11,7 +11,7 @@ class XMRStakAPI(object):
 
         self.port = port
 
-        self.version = ''
+        self.version = ""
 
         #: int: Uptime in minutes
         self.runtime = 0
@@ -25,10 +25,10 @@ class XMRStakAPI(object):
         self.rejected_shares = 0
 
         #: list of float: Current Hashrate per card. 10s rolling average.
-        self.percard_hashrate = [0, ]
+        self.percard_hashrate = [0]
 
         #: str: Pool with which the miner is currently connected
-        self.pool = ''
+        self.pool = ""
 
         #: int: a copy of :attr:`XMRStak.rejected_shares`
         self.invalid_shares = 0
@@ -37,33 +37,29 @@ class XMRStakAPI(object):
 
     def update(self):
         response = requests.get(
-            'http://'
-            + self.ip
-            + ':'
-            + str(self.port)
-            + '/api.json'
+            "http://" + self.ip + ":" + str(self.port) + "/api.json"
         ).json()
 
-        self.version = response['version']
+        self.version = response["version"]
 
-        self.runtime = int(response['connection']['uptime']) // 60
+        self.runtime = int(response["connection"]["uptime"]) // 60
 
-        self.total_hashrate = float(response['hashrate']['total'][0])
+        self.total_hashrate = float(response["hashrate"]["total"][0])
 
-        self.accepted_shares = int(response['results']['shares_good'])
+        self.accepted_shares = int(response["results"]["shares_good"])
 
         self.rejected_shares = int(
-            response['results']['shares_total']
-            - response['results']['shares_good']
+            response["results"]["shares_total"]
+            - response["results"]["shares_good"]
         )
 
         self.invalid_shares = self.rejected_shares
 
         self.percard_hashrate = [
-            float(thread[0]) for thread in response['hashrate']['threads']
+            float(thread[0]) for thread in response["hashrate"]["threads"]
         ]
 
-        self.pool = response['connection']['pool']
+        self.pool = response["connection"]["pool"]
 
     def getdict(self, update=False):
         """Returns a dictionary of the class attributes, in a nice format"""
@@ -71,23 +67,23 @@ class XMRStakAPI(object):
             self.update()
 
         ourdict = {
-            'miner': {
-                'version': self.version,
-                'ip': self.ip,
-                'port': self.port,
-                'runtime': self.runtime
+            "miner": {
+                "version": self.version,
+                "ip": self.ip,
+                "port": self.port,
+                "runtime": self.runtime,
             },
-            'cryptonight_pool': {
-                'pool': self.pool,
-                'accepted': self.accepted_shares,
-                'rejected': self.rejected_shares,
-                'invalid': self.invalid_shares,
-                'total_hashrate': self.total_hashrate
+            "cryptonight_pool": {
+                "pool": self.pool,
+                "accepted": self.accepted_shares,
+                "rejected": self.rejected_shares,
+                "invalid": self.invalid_shares,
+                "total_hashrate": self.total_hashrate,
             },
-            'GPUs': {}
+            "GPUs": {},
         }
         for gpu in range(len(self.percard_hashrate)):
-            ourdict['GPUs']['GPU {}'.format(gpu)] = {
-                'hashrate': self.percard_hashrate[gpu],
+            ourdict["GPUs"]["GPU {}".format(gpu)] = {
+                "hashrate": self.percard_hashrate[gpu]
             }
         return ourdict
