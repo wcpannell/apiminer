@@ -3,8 +3,7 @@ init:
 	pip install poetry
 
 docs:
-	poetry install
-	cd docs && make html
+	cd docs && poetry run make html
 
 test:
 	tox
