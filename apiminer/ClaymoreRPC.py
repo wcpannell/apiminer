@@ -78,9 +78,6 @@ class ClaymoreRPC(object):
 
         self.authorized = None
 
-        # Get Data right off the bat. Could be dangerous? I'm open to changing.
-        self.update()
-
     def _connect(self):
         """Connects to our API Host"""
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -123,7 +120,7 @@ class ClaymoreRPC(object):
             deserialized JSON response.
         """
         try:
-            received = self.socket.recv(1024)
+            received = self.socket.recv(4096)
         except ConnectionResetError:
             received = None
             self._disconnect()
@@ -137,6 +134,7 @@ class ClaymoreRPC(object):
             return json.loads(received.decode("utf-8"))
         else:
             print("invalid JSON RPC response")
+            return {"results": "INVALID"}
 
     def update(self):
         """DEPRECATION WARNING. This will be removed in the next release"""
@@ -163,9 +161,11 @@ class ClaymoreRPC(object):
 
     def getstat1(self):
         """Implementation of the getstats1 method."""
-        self.write("getstat1")
+        self.write("miner_getstat1")
         raw_response = self.read()["result"]
-        response = dict()
+        response = dict(
+            miner=dict(), eth_pool=dict(), dcr_pool=dict(), GPUs=dict()
+        )
 
         response["miner"]["version"] = raw_response[0]
         response["miner"]["runtime"] = int(raw_response[1])
@@ -347,6 +347,7 @@ class ClaymoreRPC(object):
     def response(self):
         """Deprecated.
 Returns a dictionary of the response, in a nice format"""
+        print("Deprecation warning: property response")
         if self.auto_update:
             self.update()
 

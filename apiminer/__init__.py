@@ -1,2 +1,2 @@
-from .ClaymoreRPC import ClaymoreRPC
+from .ClaymoreRPC import ClaymoreRPC, EthminerRPC
 from .XMRStakAPI import XMRStakAPI

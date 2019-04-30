@@ -69,7 +69,9 @@ def response1_fixture(mocker):
     return RPC
 
 
+# Deprecated
 def test_raw_response1(response1_fixture):
+    response1_fixture.update()
     assert (
         json.loads(miner_response1.decode("utf-8"))["result"]
         == response1_fixture._raw_response
@@ -77,87 +79,70 @@ def test_raw_response1(response1_fixture):
 
 
 def test_version_response1(response1_fixture):
+    response = response1_fixture.getstat1()
     assert (
         json.loads(miner_response1.decode("utf-8"))["result"][0]
-        == response1_fixture.response["miner"]["version"]
+        == response["miner"]["version"]
     )
 
 
 def test_address_response1(response1_fixture):
-    assert response1_fixture.ip == response1_fixture.response["miner"]["ip"]
-    assert (
-        response1_fixture.port == response1_fixture.response["miner"]["port"]
-    )
+    response = response1_fixture.getstat1()
+    assert response1_fixture.ip == response["miner"]["ip"]
+    assert response1_fixture.port == response["miner"]["port"]
 
 
 def test_runtime_response1(response1_fixture):
+    response = response1_fixture.getstat1()
     assert (
         int(json.loads(miner_response1.decode("utf-8"))["result"][1])
-        == response1_fixture.response["miner"]["runtime"]
+        == response["miner"]["runtime"]
     )
 
 
 def test_eth_pool_response1(response1_fixture):
     correct = json.loads(miner_response1.decode("utf-8"))["result"]
-    assert correct[7] == response1_fixture.response["eth_pool"]["pool"]
+    response = response1_fixture.getstat1()
+    assert correct[7] == response["eth_pool"]["pool"]
     assert (
-        int(correct[8].split(";")[1])
-        == response1_fixture.response["eth_pool"]["pool_switches"]
+        int(correct[8].split(";")[1]) == response["eth_pool"]["pool_switches"]
     )
-    assert (
-        int(correct[2].split(";")[1])
-        == response1_fixture.response["eth_pool"]["accepted"]
-    )
-    assert (
-        int(correct[2].split(";")[2])
-        == response1_fixture.response["eth_pool"]["rejected"]
-    )
-    assert (
-        int(correct[8].split(";")[0])
-        == response1_fixture.response["eth_pool"]["invalid"]
-    )
-    assert response1_fixture.response["eth_pool"]["total_hashrate"] == 44.414
+    assert int(correct[2].split(";")[1]) == response["eth_pool"]["accepted"]
+    assert int(correct[2].split(";")[2]) == response["eth_pool"]["rejected"]
+    assert int(correct[8].split(";")[0]) == response["eth_pool"]["invalid"]
+    assert response["eth_pool"]["total_hashrate"] == 44.414
 
 
 def test_dcr_pool_response1(response1_fixture):
     correct = json.loads(miner_response1.decode("utf-8"))["result"]
-    assert correct[7] == response1_fixture.response["eth_pool"]["pool"]
+    response = response1_fixture.getstat1()
+    assert correct[7] == response["eth_pool"]["pool"]
     assert (
-        int(correct[8].split(";")[3])
-        == response1_fixture.response["dcr_pool"]["pool_switches"]
+        int(correct[8].split(";")[3]) == response["dcr_pool"]["pool_switches"]
     )
+    assert int(correct[4].split(";")[1]) == response["dcr_pool"]["accepted"]
+    assert int(correct[4].split(";")[2]) == response["dcr_pool"]["rejected"]
+    assert int(correct[8].split(";")[0]) == response["dcr_pool"]["invalid"]
     assert (
-        int(correct[4].split(";")[1])
-        == response1_fixture.response["dcr_pool"]["accepted"]
-    )
-    assert (
-        int(correct[4].split(";")[2])
-        == response1_fixture.response["dcr_pool"]["rejected"]
-    )
-    assert (
-        int(correct[8].split(";")[0])
-        == response1_fixture.response["dcr_pool"]["invalid"]
-    )
-    assert (
-        int(correct[4].split(";")[2])
-        == response1_fixture.response["dcr_pool"]["total_hashrate"]
+        int(correct[4].split(";")[2]) == response["dcr_pool"]["total_hashrate"]
     )
 
 
 def test_format_gpus_response1(response1_fixture):
-    assert response1_fixture.response["GPUs"]["GPU 0"] == {
+    response = response1_fixture.getstat1()
+    assert response["GPUs"]["GPU 0"] == {
         "eth_hashrate": 14.573,
         "dcr_hashrate": 0.333,
         "temp": 41,
         "fan": 11,
     }
-    assert response1_fixture.response["GPUs"]["GPU 1"] == {
+    assert response["GPUs"]["GPU 1"] == {
         "eth_hashrate": 15.036,
         "dcr_hashrate": 0.333,
         "temp": 51,
         "fan": 21,
     }
-    assert response1_fixture.response["GPUs"]["GPU 2"] == {
+    assert response["GPUs"]["GPU 2"] == {
         "eth_hashrate": 14.805,
         "dcr_hashrate": 0.334,
         "temp": 61,
