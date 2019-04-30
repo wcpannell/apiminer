@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "apiminer"
+version = "0.1.0"
+description = "apiminer is a Python package that handles communications with your miner APIs so you don’t have to."
+authors = ["W. Clayton Pannell <clayton.pannell@gmail.com>"]
+license = "BSD-3-Clause"
+
+[tool.poetry.dependencies]
+python = "~2.7 || ^3.5"
+requests = "^2.21"
+future = "^0.17.1"
+funcsigs = "^1.0"
+
+[tool.poetry.dev-dependencies]
+sphinx = {version = "^2.0",python = "^3.5"}
+sphinxcontrib-napoleon = {version = "^0.7.0",python = "^3.5"}
+pytest = "^4.4"
+pytest-mock = "^1.10"
+tox = "^3.9"
+Black = {version = "^19.3b0",allows-prereleases = true,python = "^3.6"}
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+skipsdist = True
+envlist = py27,py35,py36,py37
+
+[testenv]
+whitelist_externals = poetry
+skip_install = true
+commands=
+	poetry install -vvv
+	poetry run pytest
+"""
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+

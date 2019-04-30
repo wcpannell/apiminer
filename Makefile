@@ -1,13 +1,9 @@
 .PHONY: docs
 init:
-	pip install pipenv
-	pipenv install --dev --skip-lock
+	pip install poetry
 
 docs:
-	cd docs && make html
-
-citest:
-	pipenv run pytest
+	cd docs && poetry run make html
 
 test:
-	detox
+	tox
