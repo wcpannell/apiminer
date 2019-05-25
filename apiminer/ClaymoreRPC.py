@@ -73,7 +73,7 @@ class ClaymoreRPC(object):
                 }
             },
         }
-        """dict: Private storage of formatted response. set by
+        """dict: DEPRECATED. Private storage of formatted response. set by
         :meth:`ClaymoreRPC.update`"""
 
         self.authorized = None
@@ -163,71 +163,38 @@ class ClaymoreRPC(object):
         """Implementation of the getstats1 method."""
         self.write("miner_getstat1")
         raw_response = self.read()["result"]
-        response = dict(
-            miner=dict(), eth_pool=dict(), dcr_pool=dict(), GPUs=dict()
-        )
+        return raw_response
 
-        response["miner"]["version"] = raw_response[0]
-        response["miner"]["runtime"] = int(raw_response[1])
+    def unified_data(self, return_dual_mining=False):
+        """Returns a generic formatted response.
 
-        [
-            response["eth_pool"]["total_hashrate"],
-            response["eth_pool"]["accepted"],
-            response["eth_pool"]["rejected"],
-        ] = [int(val) for val in raw_response[2].split(";")]
-        if response["eth_pool"]["total_hashrate"] > 0:
-            response["eth_pool"]["total_hashrate"] /= 1000
+        Uses get_stat1 under the hood
+        """
 
-        [
-            response["dcr_pool"]["total_hashrate"],
-            response["dcr_pool"]["accepted"],
-            response["dcr_pool"]["rejected"],
-        ] = [
-            int(val) if val != "off" else -1
-            for val in raw_response[4].split(";")
-        ]
-        if response["dcr_pool"]["total_hashrate"] > 0:
-            response["dcr_pool"]["total_hashrate"] /= 1000
+        response = self.format_getstat1()
 
-        response["eth_pool"]["pool"] = raw_response[7]
+        for (key, value) in response["GPUs"].items():
+            if return_dual_mining:
+                value.pop("eth_hashrate")
+                value["hashrate"] = value.pop("dcr_hashrate")
+            else:
+                value.pop("dcr_hashrate")
+                value["hashrate"] = value.pop("eth_hashrate")
 
-        [
-            response["eth_pool"]["invalid"],
-            response["eth_pool"]["pool_switches"],
-            response["dcr_pool"]["invalid"],
-            response["dcr_pool"]["pool_switches"],
-        ] = [
-            int(val) if val != "off" else -1
-            for val in raw_response[8].split(";")
-        ]
+        unified_response = {
+            "coin": "ethash",
+            "total hashrate": response["eth_pool"]["total_hashrate"],
+            "shares": {
+                "accepted": response["eth_pool"]["accepted"],
+                "rejected": response["eth_pool"]["rejected"],
+                "invalid": response["eth_pool"]["invalid"],
+            },
+            "uptime": response["miner"]["runtime"],
+            "version": response["miner"]["version"],
+            "GPUs": response["GPUs"],
+        }
 
-        percard_eth_hashrate = [
-            (int(val) / 1000) for val in raw_response[3].split(";")
-        ]
-
-        percard_dcr_hashrate = [
-            (float(val) / 1000) if val != "off" else -1
-            for val in raw_response[5].split(";")
-        ]
-
-        tempsfans = raw_response[6].split(";")
-        tempsfans = [
-            [int(value), int(tempsfans[index + 1])]
-            for index, value in enumerate(tempsfans)
-            if not index % 2
-        ]
-
-        for gpu in range(len(percard_eth_hashrate)):
-            response["GPUs"]["GPU {}".format(gpu)] = {
-                "eth_hashrate": percard_eth_hashrate[gpu],
-                "dcr_hashrate": percard_dcr_hashrate[gpu],
-                "temp": tempsfans[gpu][0],
-                "fan": tempsfans[gpu][1],
-            }
-        response["miner"]["ip"] = self.ip
-        response["miner"]["port"] = self.port
-
-        return response
+        return unified_response
 
     def restart_miner(self):
         """Deprecated. Renamed to restart.
@@ -276,57 +243,64 @@ class ClaymoreRPC(object):
         else:
             return False
 
-    def _format_response(self):
-        """DEPRECATED WARNING. This will be removed in the next release"""
-        print(
-            "DEPRECATION WARNING. This will be removed in the next release\n",
-            "Formatting will now be a part of each API method implementation",
-        )
+    def format_getstat1(self):
+        """Applies a nice formatting to getstat1
 
-        self._response["miner"]["version"] = self._raw_response[0]
-        self._response["miner"]["runtime"] = int(self._raw_response[1])
+        Returns
+        -------
+        dict
+            Formatted API response. Check code for keys.
+        """
 
-        [
-            self._response["eth_pool"]["total_hashrate"],
-            self._response["eth_pool"]["accepted"],
-            self._response["eth_pool"]["rejected"],
-        ] = [int(val) for val in self._raw_response[2].split(";")]
-        if self._response["eth_pool"]["total_hashrate"] > 0:
-            self._response["eth_pool"]["total_hashrate"] /= 1000
+        raw_response = self.getstat1()
+        response = {
+            "miner": dict(),
+            "eth_pool": dict(),
+            "dcr_pool": dict(),
+            "GPUs": dict(),
+        }
 
-        [
-            self._response["dcr_pool"]["total_hashrate"],
-            self._response["dcr_pool"]["accepted"],
-            self._response["dcr_pool"]["rejected"],
-        ] = [
-            int(val) if val != "off" else -1
-            for val in self._raw_response[4].split(";")
-        ]
-        if self._response["dcr_pool"]["total_hashrate"] > 0:
-            self._response["dcr_pool"]["total_hashrate"] /= 1000
-
-        self._response["eth_pool"]["pool"] = self._raw_response[7]
+        response["miner"]["version"] = raw_response[0]
+        hours = int(raw_response[1]) // 60
+        minutes = int(raw_response[1]) % 60
+        response["miner"]["runtime"] = "{}:{}".format(hours, minutes)
 
         [
-            self._response["eth_pool"]["invalid"],
-            self._response["eth_pool"]["pool_switches"],
-            self._response["dcr_pool"]["invalid"],
-            self._response["dcr_pool"]["pool_switches"],
-        ] = [
-            int(val) if val != "off" else -1
-            for val in self._raw_response[8].split(";")
-        ]
+            response["eth_pool"]["total_hashrate"],
+            response["eth_pool"]["accepted"],
+            response["eth_pool"]["rejected"],
+        ] = [int(val) for val in raw_response[2].split(";")]
+        if response["eth_pool"]["total_hashrate"] > 0:
+            response["eth_pool"]["total_hashrate"] *= 1000
+
+        [
+            response["dcr_pool"]["total_hashrate"],
+            response["dcr_pool"]["accepted"],
+            response["dcr_pool"]["rejected"],
+        ] = [int(val) for val in raw_response[4].split(";")]
+        if response["dcr_pool"]["total_hashrate"] > 0:
+            response["dcr_pool"]["total_hashrate"] *= 1000
+
+        response["eth_pool"]["pool"] = raw_response[7]
+
+        [
+            response["eth_pool"]["invalid"],
+            response["eth_pool"]["pool_switches"],
+            response["dcr_pool"]["invalid"],
+            response["dcr_pool"]["pool_switches"],
+        ] = [int(val) for val in raw_response[8].split(";")]
 
         percard_eth_hashrate = [
-            (int(val) / 1000) for val in self._raw_response[3].split(";")
+            (int(val) * 1000) if val != "off" else 0
+            for val in raw_response[3].split(";")
         ]
 
         percard_dcr_hashrate = [
-            (float(val) / 1000) if val != "off" else -1
-            for val in self._raw_response[5].split(";")
+            (float(val) * 1000) if val != "off" else 0
+            for val in raw_response[5].split(";")
         ]
 
-        tempsfans = self._raw_response[6].split(";")
+        tempsfans = raw_response[6].split(";")
         tempsfans = [
             [int(value), int(tempsfans[index + 1])]
             for index, value in enumerate(tempsfans)
@@ -334,14 +308,25 @@ class ClaymoreRPC(object):
         ]
 
         for gpu in range(len(percard_eth_hashrate)):
-            self._response["GPUs"]["GPU {}".format(gpu)] = {
+            response["GPUs"]["GPU {}".format(gpu)] = {
                 "eth_hashrate": percard_eth_hashrate[gpu],
                 "dcr_hashrate": percard_dcr_hashrate[gpu],
                 "temp": tempsfans[gpu][0],
                 "fan": tempsfans[gpu][1],
             }
-        self._response["miner"]["ip"] = self.ip
-        self._response["miner"]["port"] = self.port
+        response["miner"]["ip"] = self.ip
+        response["miner"]["port"] = self.port
+
+        return response
+
+    def _format_response(self):
+        """DEPRECATED WARNING. This will be removed in the next release"""
+        print(
+            "DEPRECATION WARNING. This will be removed in the next release\n",
+            "Formatting will now be a part of each API method implementation",
+        )
+
+        self._response = self.format_getstat1()
 
     @property
     def response(self):

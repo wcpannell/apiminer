@@ -87,3 +87,31 @@ class XMRStakAPI(object):
                 "hashrate": self.percard_hashrate[gpu]
             }
         return ourdict
+
+    def unified_data(self, return_dual_mining=None):
+        """Returns a generic formatted response.
+
+        Yes, XMRStak API does have a completely different implementation
+        compared to Claymore RPC. Although, Claymore used to be closer to this
+        before adding a the new ethminer methods. This will just use
+        :meth:`XMRStakAPI.getdict` under the hood
+        
+        Returns
+        -------
+        dict
+            Unified API dictionary
+        """
+        response = self.getdict(update=True)
+
+        unified_response = {
+            "coin": "XMR-Stak",
+            "total hashrate": response["cryptonight_pool"]["total_hashrate"],
+            "shares": {
+                "accepted": response["cryptonight_pool"]["accepted"],
+                "rejected": response["cryptonight_pool"]["rejected"],
+                "invalid": response["cryptonight_pool"]["invalid"],
+            },
+            "uptime": response["miner"]["runtime"],
+            "version": response["miner"]["version"],
+            "GPUs": response["GPUs"],
+        }
