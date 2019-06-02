@@ -93,7 +93,7 @@ def test_runtime_response1(response1_fixture):
     response = response1_fixture.format_getstat1()
     assert (
         # int(json.loads(miner_response1.decode("utf-8"))["result"][1])
-        "5:6"
+        "05:06"
         == response["miner"]["runtime"]
     )
 

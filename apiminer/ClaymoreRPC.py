@@ -263,7 +263,7 @@ class ClaymoreRPC(object):
         response["miner"]["version"] = raw_response[0]
         hours = int(raw_response[1]) // 60
         minutes = int(raw_response[1]) % 60
-        response["miner"]["runtime"] = "{}:{}".format(hours, minutes)
+        response["miner"]["runtime"] = "{:02d}:{:02d}".format(hours, minutes)
 
         [
             response["eth_pool"]["total_hashrate"],
