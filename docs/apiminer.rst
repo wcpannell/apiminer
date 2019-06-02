@@ -20,6 +20,14 @@ apiminer.XMRStakAPI module
     :undoc-members:
     :show-inheritance:
 
+apiminer.SGMinerRPC module
+--------------------------
+
+.. automodule:: apiminer.SGMinerRPC
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
