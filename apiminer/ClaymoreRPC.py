@@ -4,13 +4,13 @@
 
 This is compatable with both Claymore and Ethminer
 """
-from __future__ import (
-    absolute_import,
-    division,
-    print_function,
-    unicode_literals,
-)
-from builtins import *  # noqa 401,403
+# from __future__ import (
+#     absolute_import,
+#     division,
+#     print_function,
+#     unicode_literals,
+# )
+# from builtins import *  # noqa 401,403
 import socket
 import json
 

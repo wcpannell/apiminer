@@ -6,7 +6,7 @@ authors = ["W. Clayton Pannell <clayton.pannell@gmail.com>"]
 license = "BSD-3-Clause"
 
 [tool.poetry.dependencies]
-python = "~2.7 || ^3.5"
+python = "^3.5"
 requests = "^2.21"
 future = "^0.17.1"
 funcsigs = "^1.0"
@@ -23,7 +23,7 @@ Black = {version = "^19.3b0",allows-prereleases = true,python = "^3.6"}
 legacy_tox_ini = """
 [tox]
 skipsdist = True
-envlist = py27,py35,py36,py37
+envlist = py35,py36,py37
 
 [testenv]
 whitelist_externals = poetry
