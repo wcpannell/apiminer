@@ -12,8 +12,8 @@ Apiminer supports:
      - PhoenixMiner
  * XMRStak
  * SGMinerRPC
-   - SGMiner
-   - Team Red Miner
+     - SGMiner
+     - Team Red Miner
  * Others Coming Soon
 
 Documentation
