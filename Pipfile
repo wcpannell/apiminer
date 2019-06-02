@@ -17,8 +17,6 @@ tox = "*"
 detox = "*"
 pipenv = "*"
 tox-pyenv = "*"
-black = "==19.3b0"
-
 # [requires]
 # 
 # python_version >= "2.7"
