@@ -116,6 +116,10 @@ class _SGBase(object):
     def unified_data(self, return_dual_mining=False):
         """@TODO: Fix GPUs"""
         message = self.summary()
+        devs = self.devs()
+
+        uptime_hours = message["Elapsed"] // 3600
+        uptime_minutes = (message["Elapsed"] // 60) % 60
 
         unified_response = {
             "coin": self.coin,
@@ -125,16 +129,25 @@ class _SGBase(object):
                 "rejected": message["Rejected"],
                 "invalid": message["Discarded"] + message["Stale"],
             },
-            "uptime": message["Elapsed"] // 60,
-            "version": self.version(),
+            "uptime": "{:02d}:{:02d}".format(uptime_hours, uptime_minutes),
+            "version": self.version()["Miner"],
             "GPUs": self.devs(),
         }
+
+        unified_response["GPUs"] = {}
+
+        for dev in devs:
+            unified_response["GPUs"]["GPU {}".format(dev["GPU"])] = {
+                "hashrate": int(dev["KHS av"] * 1000),
+                "temp": int(dev["Temperature"]),
+                "fan": int(dev["Fan Percent"]),
+            }
 
         return unified_response
 
 
 class SGMiner(_SGBase):
-    def __init__(self):
+    def __init__(self, ip: str, port: int):
         super().__init__(ip, port)
 
     def pgacount(self) -> int:
