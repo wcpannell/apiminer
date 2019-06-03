@@ -16,6 +16,8 @@ sphinxcontrib-napoleon = {version = "^0.7.0",python = "^3.5"}
 pytest = "^4.4"
 pytest-mock = "^1.10"
 Black = {version = "^19.3b0",allows-prereleases = true,python = "^3.6"}
+codecov = "^2.0"
+pytest-cov = "^2.7"
 
 [tool.tox]
 legacy_tox_ini = """
@@ -25,11 +27,14 @@ skipsdist = true
 envlist = py35, py36, py37
 
 [testenv]
+passenv = CODECOV_TOKEN
 whitelist_externals = poetry
 skip_install = true
+deps = codecov
 commands=
 	poetry install -vvv
-	poetry run pytest
+	poetry run pytest --cov=./
+	poetry run codecov --token $CODECOV_TOKEN
 """
 
 [build-system]

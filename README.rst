@@ -1,12 +1,21 @@
 apiminer
 --------
 
-Travis: |travis| Drone: |drone|
-
-.. |travis| image:: https://travis-ci.org/wcpannell/apiminer.svg?branch=master
+.. image:: https://travis-ci.org/wcpannell/apiminer.svg?branch=master
     :target: https://travis-ci.org/wcpannell/apiminer
-.. |drone| image:: https://cloud.drone.io/api/badges/wcpannell/apiminer/status.svg
+    :alt: Travis.ci
+
+.. image:: https://cloud.drone.io/api/badges/wcpannell/apiminer/status.svg
     :target: https://cloud.drone.io/wcpannell/apiminer
+    :alt: Drone.io
+
+.. image:: https://codecov.io/github/wcpannell/apiminer/branch/master/graph/badge.svg
+   :target: https://codecov.io/github/python-attrs/attrs
+   :alt: Test Coverage
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/ambv/black
+   :alt: Code style: black
 
 apiminer is a Python package that handles communications with your miner APIs so you don't have to. Apiminer formats the output into a dictionary object for use in your reporting script. It can, optionally, automatically grab the latest status every time it is called.
 
