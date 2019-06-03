@@ -22,6 +22,7 @@ Black = {version = "^19.3b0",allows-prereleases = true,python = "^3.6"}
 [tool.tox]
 legacy_tox_ini = """
 [tox]
+isolated_build = true
 skipsdist = true
 envlist = py35, py36, py37
 
