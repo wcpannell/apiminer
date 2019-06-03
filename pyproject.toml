@@ -8,7 +8,6 @@ license = "BSD-3-Clause"
 [tool.poetry.dependencies]
 python = "^3.5"
 requests = "^2.21"
-future = "^0.17.1"
 funcsigs = "^1.0"
 
 [tool.poetry.dev-dependencies]
@@ -16,7 +15,6 @@ sphinx = {version = "^2.0",python = "^3.5"}
 sphinxcontrib-napoleon = {version = "^0.7.0",python = "^3.5"}
 pytest = "^4.4"
 pytest-mock = "^1.10"
-tox = "^3.9"
 Black = {version = "^19.3b0",allows-prereleases = true,python = "^3.6"}
 
 [tool.tox]
