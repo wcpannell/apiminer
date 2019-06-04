@@ -6,21 +6,25 @@ test_py35:
         stage: test
         image: python:3.5-alpine
         script:
-                - pip install poetry tox
-                - tox
+                - pip install poetry
+                - poetry install -vvv
+                - poetry run pytest --cov=apiminer/
 
 test_py36:
         stage: test
         image: python:3.6-alpine
         script:
-                - pip install poetry tox
-                - tox
+                - pip install poetry
+                - poetry install -vvv
+                - poetry run pytest --cov=apiminer/
+
 test_py37:
         stage: test
         image: python:3.7-alpine
         script:
-                - pip install poetry tox
-                - tox
+                - pip install poetry
+                - poetry install -vvv
+                - poetry run pytest --cov=apiminer/
 
 build_linux:
         stage: build
