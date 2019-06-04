@@ -21,13 +21,14 @@ apiminer is a Python package that handles communications with your miner APIs so
 
 Apiminer supports:
  * ClaymoreRPC
-     - Claymore
-     - Ethminer
-     - PhoenixMiner
- * XMRStak
- * SGMinerRPC
-     - SGMiner
-     - Team Red Miner
+     - `Claymore <https://bitcointalk.org/index.php?topic=1433925>`_
+     - `Ethminer <https://github.com/ethereum-mining/ethminer>`_
+     - `PhoenixMiner <https://bitcointalk.org/index.php?topic=2647654>`_
+ * `XMRStak <https://github.com/fireice-uk/xmr-stak/>`_
+ * `CGMinerRPC <https://github.com/ckolivas/cgminer/blob/master/API-README>`_
+     - `Team Red Miner <https://bitcointalk.org/index.php?topic=5059817>`_
+     - `SGMiner <https://github.com/genesismining/sgminer-gm>`_ (Untested)
+     - `CGMiner <https://github.com/ckolivas/cgminer/>`_ (Untested)
  * Others Coming Soon
 
 Documentation
@@ -38,10 +39,10 @@ Usage
 -----
 A trivial example::
 
-        import apiminer
+        >>> import apiminer
 
-        claymore_miner_1 = apiminer.ClaymoreRPC("192.168.0.2", 8080)
-        print(claymore_miner_1.unified_data())
+        >>> claymore_miner_1 = apiminer.ClaymoreRPC("192.168.0.2", 8080)
+        >>> print(claymore_miner_1.unified_data())
         {"coin": "ethash",
         "total hashrate": 75965000,
         "shares": {"accepted": 1452, "rejected": 28, "invalid": 0},
@@ -52,9 +53,9 @@ A trivial example::
          "GPU 2": {"temp": 52, "fan": 32, "hashrate": 15304000},
          "GPU 3": {"temp": 51, "fan": 31, "hashrate": 15308000}}}
 
-        teamredminer_1 = apiminer.TeamRedMiner("192.168.0.3", 8080)
-        TeamRedMiner_1.coin = "Monero"
-        print(teamredminer_1.unified_data())
+        >>> teamredminer_1 = apiminer.TeamRedMiner("192.168.0.3", 8080)
+        >>> TeamRedMiner_1.coin = "Monero"
+        >>> print(teamredminer_1.unified_data())
         {"coin": "Monero",
         "total hashrate": 2224.0,
         "shares": {"accepted": 16057, "rejected": 2, "invalid": 1},
