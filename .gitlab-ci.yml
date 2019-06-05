@@ -2,39 +2,42 @@ stages:
         - test
         - build
 
-test_py35:
+test_tox:
         stage: test
-        image: python:3.5-alpine
+        image: fedora:30
         script:
-                - pip install poetry
-                - pip install --upgrade pip
-                - poetry install -vvv
-                - poetry run pytest --cov=apiminer/
-
-test_py36:
-        stage: test
-        image: python:3.6-alpine
-        script:
-                - pip install poetry
-                - pip install --upgrade pip
-                - poetry install -vvv
-                - poetry run pytest --cov=apiminer/
-
-test_py37:
-        stage: test
-        image: python:3.7-alpine
-        script:
-                - pip install poetry
-                - pip install --upgrade pip
-                - poetry install -vvv
-                - poetry run pytest --cov=apiminer/
+                - dnf install -y python3 python35 python36 python3-tox
+                - pip3 install poetry
+                - tox
+# test_py35:
+#         stage: test
+#         image: python:3.5-alpine
+#         script:
+#                 - pip install poetry
+#                 - poetry install -vvv
+#                 - poetry run pytest --cov=apiminer/
+# 
+# test_py36:
+#         stage: test
+#         image: python:3.6-alpine
+#         script:
+#                 - pip install poetry
+#                 - poetry install -vvv
+#                 - poetry run pytest --cov=apiminer/
+# 
+# test_py37:
+#         stage: test
+#         image: python:3.7-alpine
+#         script:
+#                 - pip install poetry
+#                 - poetry install -vvv
+#                 - poetry run pytest --cov=apiminer/
 
 build_linux:
         stage: build
         image: python:3-alpine
         script:
                 - pip install poetry
-                - pip install --upgrade pip
                 - poetry install -vvv
                 - poetry build
 
@@ -43,6 +46,5 @@ build_win:
         image: python:3-windowsservercore
         script:
                 - pip install poetry
-                - pip install --upgrade pip
                 - poetry install -vvv
                 - poetry build
