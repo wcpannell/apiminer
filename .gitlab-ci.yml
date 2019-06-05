@@ -1,6 +1,7 @@
 stages:
         - test
         - build
+        - docs
 
 test_tox:
         stage: test
@@ -17,3 +18,16 @@ build_linux:
                 - pip install poetry
                 - poetry install -vvv
                 - poetry build
+
+docs:
+        stage: docs
+        image: python:3-alpine
+        script:
+                - pip install poetry
+                - apk add make git
+                - poetry install -vvv
+                - make docs
+                - sh push.sh dry
+        only:
+                - tags
+                - master

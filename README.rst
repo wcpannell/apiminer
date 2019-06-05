@@ -1,16 +1,16 @@
 apiminer
 --------
 
-.. image:: https://travis-ci.org/wcpannell/apiminer.svg?branch=master
-    :target: https://travis-ci.org/wcpannell/apiminer
-    :alt: Travis.ci
-
 .. image:: https://cloud.drone.io/api/badges/wcpannell/apiminer/status.svg
     :target: https://cloud.drone.io/wcpannell/apiminer
     :alt: Drone.io
 
-.. image:: https://codecov.io/github/wcpannell/apiminer/branch/master/graph/badge.svg
-   :target: https://codecov.io/github/python-attrs/attrs
+.. image:: https://gitlab.com/wcpannell/apiminer/badges/master/pipeline.svg
+    :target: https://gitlab.com/wcpannell/apiminer/commits/master
+    :alt: GitLab
+
+.. image:: https://gitlab.com/wcpannell/apiminer/badges/master/coverage.svg
+   :target: https://gitlab.com/wcpannell/apiminer/commits/master
    :alt: Test Coverage
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
