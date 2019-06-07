@@ -1,6 +1,10 @@
 apiminer package
 ================
 
+:Release: |release|
+
+-------------------
+
 Submodules
 ----------
 
