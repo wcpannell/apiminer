@@ -1,6 +1,10 @@
 apiminer package
 ================
 
+:Release: |release|
+
+-------------------
+
 Submodules
 ----------
 
@@ -16,6 +20,14 @@ apiminer.XMRStakAPI module
 --------------------------
 
 .. automodule:: apiminer.XMRStakAPI
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+apiminer.SGMinerRPC module
+--------------------------
+
+.. automodule:: apiminer.SGMinerRPC
     :members:
     :undoc-members:
     :show-inheritance:

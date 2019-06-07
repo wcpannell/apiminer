@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>apiminer package &#8212; apiminer v0.1.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>apiminer package &#8212; apiminer 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Welcome to apiminer’s documentation!" href="index.html" />
@@ -35,6 +33,12 @@
             
   <div class="section" id="apiminer-package">
 <h1>apiminer package<a class="headerlink" href="#apiminer-package" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Release</dt>
+<dd class="field-odd"><p>0.1.1</p>
+</dd>
+</dl>
+<hr class="docutils" />
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -44,135 +48,234 @@
 <p>This is compatable with both Claymore and Ethminer</p>
 <dl class="class">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC">
-<em class="property">class </em><code class="descclassname">apiminer.ClaymoreRPC.</code><code class="descname">ClaymoreRPC</code><span class="sig-paren">(</span><em>ip</em>, <em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">apiminer.ClaymoreRPC.</code><code class="sig-name descname">ClaymoreRPC</code><span class="sig-paren">(</span><em class="sig-param">ip</em>, <em class="sig-param">port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Class that interacts with a ClaymoreRPC protocol listener</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – IP address of the api host</li>
-<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The port on which the api is listening</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – IP address of the api host</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The port on which the api is listening</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="attribute">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.response">
-<code class="descname">response</code><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.response" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">response</code><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.response" title="Permalink to this definition">¶</a></dt>
 <dd><p>Private storage of formatted response. set by
 <a class="reference internal" href="#apiminer.ClaymoreRPC.ClaymoreRPC.update" title="apiminer.ClaymoreRPC.ClaymoreRPC.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ClaymoreRPC.update()</span></code></a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.authorize">
-<code class="descname">authorize</code><span class="sig-paren">(</span><em>password</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.authorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.authorize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">authorize</code><span class="sig-paren">(</span><em class="sig-param">password</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.authorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.authorize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Authenticate connection. Used for APIs that have –api-password set.</p>
 <p>This will send the password in plaintext. Blame Ethminer</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The password. Again, cleartext.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The password. Again, cleartext.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.auto_update">
-<code class="descname">auto_update</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.auto_update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">auto_update</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.auto_update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable to update every time the response attribute is read.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.getstats1">
-<code class="descname">getstats1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.getstats1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.getstats1" title="Permalink to this definition">¶</a></dt>
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.format_getstat1">
+<code class="sig-name descname">format_getstat1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.format_getstat1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.format_getstat1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a nice formatting to getstat1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Formatted API response. Check code for keys.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.getstat1">
+<code class="sig-name descname">getstat1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.getstat1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.getstat1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implementation of the getstats1 method.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.read">
-<code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.read" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read data from API</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">deserialized JSON response.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>deserialized JSON response.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.reboot">
+<code class="sig-name descname">reboot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.reboot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.reboot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a script named reboot.sh (Linux) or reboot.bat (Windows)</p>
+<p>This method will only work if the API is in write mode. There is no
+guarantee that script will succeed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns True if script was found and the miner tried to start it.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt>
-<code class="descname">response</code></dt>
+<em class="property">property </em><code class="sig-name descname">response</code></dt>
 <dd><p>Deprecated.
 Returns a dictionary of the response, in a nice format</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.restart">
+<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.restart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the miner (API Host) the restart command.</p>
+<p>The miner API must be set in write mode. Also, note that if the miner
+is non-responsive, it is very unlikely that this command will be
+effective. If effective, this will cause the miner to stop mining,
+unload DAGs, reset GPUs, regenerate DAGs, and then start mining. The
+connection to the pool will be maintained.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Restart succesful.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.restart_miner">
-<code class="descname">restart_miner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.restart_miner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.restart_miner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends the miner (API Host) the restart command.
-The miner API must be set in write mode. No effort is made to check if
-the restart was successful. Also, note that if the miner is
-non-responsive, it is very unlikely that this command will be
-effective.</p>
+<code class="sig-name descname">restart_miner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.restart_miner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.restart_miner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated. Renamed to restart.</p>
+<p>This will be removed in the next version</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.socket">
-<code class="descname">socket</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.socket" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">socket</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.socket" title="Permalink to this definition">¶</a></dt>
 <dd><p><a class="reference external" href="https://docs.python.org/3/library/socket.html#socket.socket" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">socket.socket</span></code></a> Object. This communicates with the API Host</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="apiminer.ClaymoreRPC.ClaymoreRPC.unified_data">
+<code class="sig-name descname">unified_data</code><span class="sig-paren">(</span><em class="sig-param">return_dual_mining=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.unified_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.unified_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a generic formatted response.</p>
+<p>Uses get_stat1 under the hood</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.update">
-<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>DEPRECATION WARNING. This will be removed in the next release</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="apiminer.ClaymoreRPC.ClaymoreRPC.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>method='miner_getstats1'</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">method='miner_getstats1'</em>, <em class="sig-param">password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#ClaymoreRPC.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.ClaymoreRPC.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send message to the miner. Connects if not connected</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Query the API for the data indicated. See [Ethminer
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Query the API for the data indicated. See [Ethminer
 Docs](<a class="reference external" href="https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md">https://github.com/ethereum-mining/ethminer/blob/master/docs/API_DOCUMENTATION.md</a>)
-for more information on the methods that can be used</li>
-<li><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Password for APIs protected by –api-password. Note that this
-password is sent in cleartext. Blame ethminer.</li>
+for more information on the methods that can be used</p></li>
+<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Password for APIs protected by –api-password. Note that this
+password is sent in cleartext. Blame ethminer.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apiminer.ClaymoreRPC.EthminerRPC">
+<em class="property">class </em><code class="sig-prename descclassname">apiminer.ClaymoreRPC.</code><code class="sig-name descname">EthminerRPC</code><span class="sig-paren">(</span><em class="sig-param">ip</em>, <em class="sig-param">port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#EthminerRPC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.EthminerRPC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#apiminer.ClaymoreRPC.ClaymoreRPC" title="apiminer.ClaymoreRPC.ClaymoreRPC"><code class="xref py py-class docutils literal notranslate"><span class="pre">apiminer.ClaymoreRPC.ClaymoreRPC</span></code></a></p>
+<p>Class that uses the Ethminer superset of ClaymoreRPC protocol listener
+to interact with an Ethminer client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – IP address of the api host</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The port on which the api is listening</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="apiminer.ClaymoreRPC.EthminerRPC.response">
+<code class="sig-name descname">response</code><a class="headerlink" href="#apiminer.ClaymoreRPC.EthminerRPC.response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Private storage of formatted response. set by
+<a class="reference internal" href="#apiminer.ClaymoreRPC.ClaymoreRPC.update" title="apiminer.ClaymoreRPC.ClaymoreRPC.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ClaymoreRPC.update()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.EthminerRPC.getstatdetail">
+<code class="sig-name descname">getstatdetail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#EthminerRPC.getstatdetail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.EthminerRPC.getstatdetail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns dict of detailed statistical data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>API response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.EthminerRPC.getstathr">
+<code class="sig-name descname">getstathr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#EthminerRPC.getstathr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.EthminerRPC.getstathr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ethminer’s noncompliant, but much better formatted extension to
+getstat1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Response</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.ClaymoreRPC.EthminerRPC.ping">
+<code class="sig-name descname">ping</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/ClaymoreRPC.html#EthminerRPC.ping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.ClaymoreRPC.EthminerRPC.ping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the server is still alive
+:returns: Response received.
+:rtype: bool</p>
 </dd></dl>
 
 </dd></dl>
@@ -183,103 +286,128 @@ password is sent in cleartext. Blame ethminer.</li>
 <p>Reads data from the XMRStak JSON API</p>
 <dl class="class">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI">
-<em class="property">class </em><code class="descclassname">apiminer.XMRStakAPI.</code><code class="descname">XMRStakAPI</code><span class="sig-paren">(</span><em>ip</em>, <em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">apiminer.XMRStakAPI.</code><code class="sig-name descname">XMRStakAPI</code><span class="sig-paren">(</span><em class="sig-param">ip</em>, <em class="sig-param">port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.accepted_shares">
-<code class="descname">accepted_shares</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.accepted_shares" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">accepted_shares</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.accepted_shares" title="Permalink to this definition">¶</a></dt>
 <dd><p>Total Accepted Shares</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.getdict">
-<code class="descname">getdict</code><span class="sig-paren">(</span><em>update=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI.getdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.getdict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getdict</code><span class="sig-paren">(</span><em class="sig-param">update=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI.getdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.getdict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dictionary of the class attributes, in a nice format</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.invalid_shares">
-<code class="descname">invalid_shares</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.invalid_shares" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">invalid_shares</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.invalid_shares" title="Permalink to this definition">¶</a></dt>
 <dd><p>a copy of <code class="xref py py-attr docutils literal notranslate"><span class="pre">XMRStak.rejected_shares</span></code></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.percard_hashrate">
-<code class="descname">percard_hashrate</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.percard_hashrate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">percard_hashrate</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.percard_hashrate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Current Hashrate per card. 10s rolling average.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">list of float</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.pool">
-<code class="descname">pool</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.pool" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pool</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.pool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pool with which the miner is currently connected</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.runtime">
-<code class="descname">runtime</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.runtime" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">runtime</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.runtime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Uptime in minutes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.total_hashrate">
-<code class="descname">total_hashrate</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.total_hashrate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">total_hashrate</code><em class="property"> = None</em><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.total_hashrate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Current Total Hashrate. 10 second rolling average.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apiminer.XMRStakAPI.XMRStakAPI.unified_data">
+<code class="sig-name descname">unified_data</code><span class="sig-paren">(</span><em class="sig-param">return_dual_mining=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI.unified_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.unified_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a generic formatted response.</p>
+<p>Yes, XMRStak API does have a completely different implementation
+compared to Claymore RPC. Although, Claymore used to be closer to this
+before adding a the new ethminer methods. This will just use
+<a class="reference internal" href="#apiminer.XMRStakAPI.XMRStakAPI.getdict" title="apiminer.XMRStakAPI.XMRStakAPI.getdict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">XMRStakAPI.getdict()</span></code></a> under the hood</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Unified API dictionary</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="apiminer.XMRStakAPI.XMRStakAPI.update">
-<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/XMRStakAPI.html#XMRStakAPI.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.XMRStakAPI.XMRStakAPI.update" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+</dd></dl>
+
+</div>
+<div class="section" id="module-apiminer.SGMinerRPC">
+<span id="apiminer-sgminerrpc-module"></span><h2>apiminer.SGMinerRPC module<a class="headerlink" href="#module-apiminer.SGMinerRPC" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="apiminer.SGMinerRPC.SGMiner">
+<em class="property">class </em><code class="sig-prename descclassname">apiminer.SGMinerRPC.</code><code class="sig-name descname">SGMiner</code><span class="sig-paren">(</span><em class="sig-param">ip: str</em>, <em class="sig-param">port: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/SGMinerRPC.html#SGMiner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.SGMinerRPC.SGMiner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">apiminer.SGMinerRPC._SGBase</span></code></p>
+<dl class="method">
+<dt id="apiminer.SGMinerRPC.SGMiner.pga">
+<code class="sig-name descname">pga</code><span class="sig-paren">(</span><em class="sig-param">number: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apiminer/SGMinerRPC.html#SGMiner.pga"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.SGMinerRPC.SGMiner.pga" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apiminer.SGMinerRPC.SGMiner.pgacount">
+<code class="sig-name descname">pgacount</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/apiminer/SGMinerRPC.html#SGMiner.pgacount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apiminer.SGMinerRPC.SGMiner.pgacount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apiminer.SGMinerRPC.TeamRedMiner">
+<code class="sig-prename descclassname">apiminer.SGMinerRPC.</code><code class="sig-name descname">TeamRedMiner</code><a class="headerlink" href="#apiminer.SGMinerRPC.TeamRedMiner" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">apiminer.SGMinerRPC._SGBase</span></code></p>
 </dd></dl>
 
 </div>
@@ -311,6 +439,7 @@ password is sent in cleartext. Blame ethminer.</li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-apiminer.ClaymoreRPC">apiminer.ClaymoreRPC module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-apiminer.XMRStakAPI">apiminer.XMRStakAPI module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-apiminer.SGMinerRPC">apiminer.SGMinerRPC module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-apiminer">Module contents</a></li>
 </ul>
 </li>
@@ -325,13 +454,11 @@ password is sent in cleartext. Blame ethminer.</li>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -352,7 +479,7 @@ password is sent in cleartext. Blame ethminer.</li>
       &copy;2018, C. Pannell.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

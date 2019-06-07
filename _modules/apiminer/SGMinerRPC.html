@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>apiminer.SGMinerRPC &#8212; apiminer 0.1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for apiminer.SGMinerRPC</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="c1"># from __future__ import (</span>
+<span class="c1">#     absolute_import,</span>
+<span class="c1">#     division,</span>
+<span class="c1">#     print_function,</span>
+<span class="c1">#     unicode_literals,</span>
+<span class="c1"># )</span>
+<span class="c1"># from builtins import *</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<span class="k">class</span> <span class="nc">_SGBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class that interacts with SGMiner JSON-RPC compatible API&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">VERBOSE</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coin</span> <span class="o">=</span> <span class="s2">&quot;Unknown&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;summary&quot;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;command&quot;</span><span class="p">:</span> <span class="n">method</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">parameter</span><span class="p">:</span>
+            <span class="n">query</span><span class="p">[</span><span class="s2">&quot;parameter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connect</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">sendall</span><span class="p">((</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read API response&quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">received</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ConnectionResetError</span><span class="p">:</span>
+            <span class="n">received</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_disconnect</span><span class="p">()</span>
+            <span class="k">pass</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_disconnect</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">received</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">received</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decode_status</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="n">status_code</span> <span class="o">=</span> <span class="n">status</span><span class="p">[</span><span class="s2">&quot;STATUS&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">status_code</span> <span class="ow">is</span> <span class="s2">&quot;E&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">status_code</span> <span class="ow">is</span> <span class="s2">&quot;F&quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="n">status</span><span class="p">[</span><span class="s2">&quot;Msg&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;. Message Dump:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">status_code</span> <span class="ow">is</span> <span class="s2">&quot;S&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">message</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unusual Status Flag Received.&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">message</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;invalid JSON RPC response&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="s2">&quot;INVALID&quot;</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_decode_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;STATUS&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">status</span><span class="p">[</span><span class="s2">&quot;When&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
+            <span class="n">status</span><span class="p">[</span><span class="s2">&quot;When&quot;</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">status</span>
+
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;VERSION&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;CONFIG&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span><span class="s2">&quot;summary&quot;</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;SUMMARY&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">devs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span><span class="s2">&quot;devs&quot;</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;DEVS&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">gpu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span><span class="s2">&quot;gpu&quot;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">number</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;GPU&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">gpucount</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span><span class="s2">&quot;gpucount&quot;</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;GPUS&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Count&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">unified_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_dual_mining</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;@TODO: Fix GPUs&quot;&quot;&quot;</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+        <span class="n">devs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">devs</span><span class="p">()</span>
+
+        <span class="n">uptime_hours</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Elapsed&quot;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">3600</span>
+        <span class="n">uptime_minutes</span> <span class="o">=</span> <span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;Elapsed&quot;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">60</span><span class="p">)</span> <span class="o">%</span> <span class="mi">60</span>
+
+        <span class="n">unified_response</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;coin&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coin</span><span class="p">,</span>
+            <span class="s2">&quot;total hashrate&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;KHS av&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span>
+            <span class="s2">&quot;shares&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;accepted&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Accepted&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;rejected&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Rejected&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;invalid&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Discarded&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;Stale&quot;</span><span class="p">],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;uptime&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:02d}</span><span class="s2">:</span><span class="si">{:02d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uptime_hours</span><span class="p">,</span> <span class="n">uptime_minutes</span><span class="p">),</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">()[</span><span class="s2">&quot;Miner&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;GPUs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">devs</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="n">unified_response</span><span class="p">[</span><span class="s2">&quot;GPUs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="n">devs</span><span class="p">:</span>
+            <span class="n">unified_response</span><span class="p">[</span><span class="s2">&quot;GPUs&quot;</span><span class="p">][</span><span class="s2">&quot;GPU </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dev</span><span class="p">[</span><span class="s2">&quot;GPU&quot;</span><span class="p">])]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;hashrate&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">dev</span><span class="p">[</span><span class="s2">&quot;KHS av&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">),</span>
+                <span class="s2">&quot;temp&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">dev</span><span class="p">[</span><span class="s2">&quot;Temperature&quot;</span><span class="p">]),</span>
+                <span class="s2">&quot;fan&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">dev</span><span class="p">[</span><span class="s2">&quot;Fan Percent&quot;</span><span class="p">]),</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">unified_response</span>
+
+
+<div class="viewcode-block" id="SGMiner"><a class="viewcode-back" href="../../apiminer.html#apiminer.SGMinerRPC.SGMiner">[docs]</a><span class="k">class</span> <span class="nc">SGMiner</span><span class="p">(</span><span class="n">_SGBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SGMiner.pgacount"><a class="viewcode-back" href="../../apiminer.html#apiminer.SGMinerRPC.SGMiner.pgacount">[docs]</a>    <span class="k">def</span> <span class="nf">pgacount</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span><span class="s2">&quot;pgacount&quot;</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;PGAS&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;Count&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SGMiner.pga"><a class="viewcode-back" href="../../apiminer.html#apiminer.SGMinerRPC.SGMiner.pga">[docs]</a>    <span class="k">def</span> <span class="nf">pga</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span><span class="s2">&quot;pga&quot;</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="n">number</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;PGA&quot;</span><span class="p">]</span></div></div>
+
+
+<span class="n">TeamRedMiner</span> <span class="o">=</span> <span class="n">_SGBase</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">apiminer</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../apiminer.html">apiminer package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, C. Pannell.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

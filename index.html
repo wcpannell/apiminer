@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to apiminer’s documentation! &#8212; apiminer v0.1.0 documentation</title>
+    <meta charset="utf-8" />
+    <title>Welcome to apiminer’s documentation! &#8212; apiminer 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="apiminer package" href="apiminer.html" />
@@ -37,23 +35,33 @@
 <h1>Welcome to apiminer’s documentation!<a class="headerlink" href="#welcome-to-apiminer-s-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="apiminer">
 <h2>apiminer<a class="headerlink" href="#apiminer" title="Permalink to this headline">¶</a></h2>
-<a class="reference external image-reference" href="https://travis-ci.org/wcpannell/apiminer"><img alt="https://travis-ci.org/wcpannell/apiminer.svg?branch=master" src="https://travis-ci.org/wcpannell/apiminer.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://cloud.drone.io/wcpannell/apiminer"><img alt="Drone.io" src="https://cloud.drone.io/api/badges/wcpannell/apiminer/status.svg" /></a>
+<a class="reference external image-reference" href="https://gitlab.com/wcpannell/apiminer/commits/master"><img alt="GitLab" src="https://gitlab.com/wcpannell/apiminer/badges/master/pipeline.svg" /></a>
+<a class="reference external image-reference" href="https://gitlab.com/wcpannell/apiminer/commits/master"><img alt="Test Coverage" src="https://gitlab.com/wcpannell/apiminer/badges/master/coverage.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
 <p>apiminer is a Python package that handles communications with your miner APIs so you don’t have to. Apiminer formats the output into a dictionary object for use in your reporting script. It can, optionally, automatically grab the latest status every time it is called.</p>
-<dl class="docutils">
-<dt>Apiminer supports:</dt>
-<dd><ul class="first last simple">
-<li><dl class="first docutils">
-<dt>ClaymoreRPC</dt>
-<dd><ul class="first last">
-<li>Claymore</li>
-<li>Ethminer</li>
-<li>PhoenixMiner (untested)</li>
+<dl class="simple">
+<dt>Apiminer supports:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>ClaymoreRPC</dt><dd><ul>
+<li><p><a class="reference external" href="https://bitcointalk.org/index.php?topic=1433925">Claymore</a></p></li>
+<li><p><a class="reference external" href="https://github.com/ethereum-mining/ethminer">Ethminer</a></p></li>
+<li><p><a class="reference external" href="https://bitcointalk.org/index.php?topic=2647654">PhoenixMiner</a></p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li>XMRStak</li>
-<li>Others Coming Soon</li>
+<li><p><a class="reference external" href="https://github.com/fireice-uk/xmr-stak/">XMRStak</a></p></li>
+<li><dl class="simple">
+<dt><a class="reference external" href="https://github.com/ckolivas/cgminer/blob/master/API-README">CGMinerRPC</a></dt><dd><ul>
+<li><p><a class="reference external" href="https://bitcointalk.org/index.php?topic=5059817">Team Red Miner</a></p></li>
+<li><p><a class="reference external" href="https://github.com/genesismining/sgminer-gm">SGMiner</a> (Untested)</p></li>
+<li><p><a class="reference external" href="https://github.com/ckolivas/cgminer/">CGMiner</a> (Untested)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Others Coming Soon</p></li>
 </ul>
 </dd>
 </dl>
@@ -61,6 +69,35 @@
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <p>Mediocre documentation is available at <a class="reference external" href="https://wcpannell.github.io/apiminer/">https://wcpannell.github.io/apiminer/</a></p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>A trivial example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">apiminer</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">claymore_miner_1</span> <span class="o">=</span> <span class="n">apiminer</span><span class="o">.</span><span class="n">ClaymoreRPC</span><span class="p">(</span><span class="s2">&quot;192.168.0.2&quot;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">claymore_miner_1</span><span class="o">.</span><span class="n">unified_data</span><span class="p">())</span>
+<span class="go">{&quot;coin&quot;: &quot;ethash&quot;,</span>
+<span class="go">&quot;total hashrate&quot;: 75965000,</span>
+<span class="go">&quot;shares&quot;: {&quot;accepted&quot;: 1452, &quot;rejected&quot;: 28, &quot;invalid&quot;: 0},</span>
+<span class="go">&quot;uptime&quot;: &quot;23:33&quot;,</span>
+<span class="go">&quot;version&quot;: &quot;PM 4.2c - ETH&quot;,</span>
+<span class="go">&quot;GPUs&quot;: {&quot;GPU 0&quot;: {&quot;temp&quot;: 63, &quot;fan&quot;: 66, &quot;hashrate&quot;: 30026000},</span>
+<span class="go"> &quot;GPU 1&quot;: {&quot;temp&quot;: 55, &quot;fan&quot;: 33, &quot;hashrate&quot;: 15326000},</span>
+<span class="go"> &quot;GPU 2&quot;: {&quot;temp&quot;: 52, &quot;fan&quot;: 32, &quot;hashrate&quot;: 15304000},</span>
+<span class="go"> &quot;GPU 3&quot;: {&quot;temp&quot;: 51, &quot;fan&quot;: 31, &quot;hashrate&quot;: 15308000}}}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">teamredminer_1</span> <span class="o">=</span> <span class="n">apiminer</span><span class="o">.</span><span class="n">TeamRedMiner</span><span class="p">(</span><span class="s2">&quot;192.168.0.3&quot;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TeamRedMiner_1</span><span class="o">.</span><span class="n">coin</span> <span class="o">=</span> <span class="s2">&quot;Monero&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">teamredminer_1</span><span class="o">.</span><span class="n">unified_data</span><span class="p">())</span>
+<span class="go">{&quot;coin&quot;: &quot;Monero&quot;,</span>
+<span class="go">&quot;total hashrate&quot;: 2224.0,</span>
+<span class="go">&quot;shares&quot;: {&quot;accepted&quot;: 16057, &quot;rejected&quot;: 2, &quot;invalid&quot;: 1},</span>
+<span class="go">&quot;uptime&quot;: &quot;132:42&quot;,</span>
+<span class="go">&quot;version&quot;: &quot;TeamRedMiner 0.4.5&quot;,</span>
+<span class="go">&quot;GPUs&quot;: {&quot;GPU 0&quot;: {&quot;hashrate&quot;: 2224, &quot;temp&quot;: 53, &quot;fan&quot;: 79}}}</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -68,6 +105,7 @@
 <li class="toctree-l2"><a class="reference internal" href="apiminer.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apiminer.html#module-apiminer.ClaymoreRPC">apiminer.ClaymoreRPC module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apiminer.html#module-apiminer.XMRStakAPI">apiminer.XMRStakAPI module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apiminer.html#module-apiminer.SGMinerRPC">apiminer.SGMinerRPC module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="apiminer.html#module-apiminer">Module contents</a></li>
 </ul>
 </li>
@@ -78,9 +116,9 @@
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
 </div>
 
@@ -115,13 +153,11 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -142,7 +178,7 @@
       &copy;2018, C. Pannell.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
