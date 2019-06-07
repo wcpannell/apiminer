@@ -27,7 +27,7 @@ docs:
                 - apk add make git
                 - poetry install -vvv
                 - make docs
-                - sh push.sh dry
+                - sh push.sh
         only:
                 - tags
                 - master

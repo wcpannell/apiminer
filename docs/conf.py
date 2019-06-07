@@ -14,6 +14,7 @@
 #
 import os
 import sys
+from tomlkit import parse as tomlparse
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -24,11 +25,11 @@ project = "apiminer"
 copyright = "2018, C. Pannell"
 author = "C. Pannell"
 
-# The short X.Y version
-version = "v0.1"
 # The full version, including alpha/beta/rc tags
-release = "v0.1.0"
-
+with open("../pyproject.toml", "r") as f:
+    release = tomlparse(f.read())["tool"]["poetry"]["version"]
+# The short X.Y version
+version = ".".join(release.split(".")[:2])
 
 # -- General configuration ---------------------------------------------------
 
