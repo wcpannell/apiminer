@@ -4,10 +4,10 @@ set -e
 
 cd ..
 
-git config user.name "GitLab CI/CD"
-git config user.email "2120605+wcpannell@users.noreply.github.com"
 git clone -b gh-pages "https://$GH_TOKEN@github.com/wcpannell/apiminer.git" gh-pages
 cd gh-pages
+git config user.name "GitLab CI/CD"
+git config user.email "2120605+wcpannell@users.noreply.github.com"
 
 cp -R ../apiminer/docs/_build/html/* ./
 git add -A .
