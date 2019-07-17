@@ -43,7 +43,7 @@ class ClaymoreRPC(object):
         #: :obj:`socket.socket` Object. This communicates with the API Host
         self.socket = None
 
-        #: bool: Enable to update every time the response attribute is read.
+        #: bool: DEPRECATED. Update every time the response attribute is read.
         self.auto_update = False
 
         self._response = {
